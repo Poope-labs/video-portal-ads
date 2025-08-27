@@ -1,0 +1,21 @@
+<section class="hero">
+  <h1 class="title">🎬 <span>Video Portal</span></h1>
+  <p class="subtitle">Upload dan tonton video dengan iklan Monetag/Adsterra</p>
+</section>
+
+<section class="video-grid">
+  <% if (videos.length === 0) { %>
+    <div class="empty">Belum ada video. <a href="/admin">Upload di Admin</a>.</div>
+  <% } %>
+  <% videos.forEach(v => { %>
+    <a class="video-card" href="/watch/<%= v.slug %>">
+      <div class="thumb">
+        <video src="<%= v.url %>#t=0.1" muted></video>
+      </div>
+      <div class="meta">
+        <h3><%= v.title %></h3>
+        <p><%= v.description || "Tonton sekarang" %></p>
+      </div>
+    </a>
+  <% }) %>
+</section>

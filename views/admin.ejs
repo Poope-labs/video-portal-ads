@@ -1,0 +1,21 @@
+<section class="admin-wrap">
+  <h1 class="title">Admin — Upload Video</h1>
+  <form class="form" action="/admin/upload" method="post" enctype="multipart/form-data">
+    <input name="title" type="text" placeholder="Judul video" required />
+    <textarea name="description" rows="3" placeholder="Deskripsi singkat"></textarea>
+    <input name="video" type="file" accept="video/mp4,video/webm,video/ogg" required/>
+    <button class="btn">Upload</button>
+  </form>
+
+  <h2>Daftar Video</h2>
+  <ul>
+    <% videos.forEach(v => { %>
+      <li>
+        <a href="/watch/<%= v.slug %>"><%= v.title %></a>
+        <form method="post" action="/admin/delete/<%= v.slug %>" style="display:inline">
+          <button type="submit">Hapus</button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+</section>

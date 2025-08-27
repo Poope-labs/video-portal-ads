@@ -1,0 +1,26 @@
+<section class="watch-page">
+  <a class="back" href="/">← Kembali</a>
+  <h1 class="title"><%= v.title %></h1>
+  <p class="subtitle"><%= v.description %></p>
+
+  <div class="ads-top">
+    <div class="ad-placeholder">[ Zona Iklan Atas Player ]</div>
+  </div>
+
+  <div class="player-card glow">
+    <video class="player" controls preload="metadata" playsinline>
+      <source src="<%= v.url %>" type="video/mp4"/>
+    </video>
+  </div>
+
+  <div class="ads-bottom">
+    <div class="ad-card">
+      <div class="ad-label">Adila Banner</div>
+      <div class="ad-placeholder">[ Zona Klik Adila ]</div>
+    </div>
+    <div class="ad-card">
+      <div class="ad-label">Monetag Box</div>
+      <div class="ad-placeholder">[ Zona Monetag 300x250 ]</div>
+    </div>
+  </div>
+</section>
