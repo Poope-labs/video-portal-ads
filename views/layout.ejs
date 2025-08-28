@@ -3,15 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= (site && site.title) || "Video Portal" %></title>
-  <meta name="description" content="<%= (site && site.description) || 'Trailer video + tonton full lewat Telegram' %>">
-  <link rel="canonical" href="<%= site?.canonical || (site?.baseUrl || '') %>">
-  <meta property="og:title" content="<%= site?.og?.title || site?.title || 'Video Portal' %>">
-  <meta property="og:description" content="<%= site?.og?.description || site?.description || '' %>">
-  <meta property="og:url" content="<%= site?.og?.url || site?.canonical || '' %>">
+  <%
+    const S = typeof site === 'object' && site ? site : {};
+    const og  = (S.og && typeof S.og === 'object') ? S.og : {};
+    const title = S.title || "Video Portal";
+    const desc  = S.description || "Trailer video + tonton full lewat Telegram";
+    const canon = S.canonical || (S.baseUrl || "");
+    const ogTitle = og.title || title;
+    const ogDesc  = og.description || desc;
+    const ogUrl   = og.url || canon;
+  %>
+  <title><%= title %></title>
+  <meta name="description" content="<%= desc %>">
+  <% if (canon) { %><link rel="canonical" href="<%= canon %>"><% } %>
+  <% if (ogTitle) { %><meta property="og:title" content="<%= ogTitle %>"><% } %>
+  <% if (ogDesc)  { %><meta property="og:description" content="<%= ogDesc %>"><% } %>
+  <% if (ogUrl)   { %><meta property="og:url" content="<%= ogUrl %>"><% } %>
   <link rel="stylesheet" href="/public/styles.css">
 </head>
-<body class="page-<%= page || 'home' %>">
+<body class="page-<%= (typeof page === 'string' && page) ? page : 'home' %>">
   <header class="site-header">
     <div class="container">
       <a href="/" class="brand">🎬 <span>Video Portal</span></a>
