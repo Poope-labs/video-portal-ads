@@ -11,7 +11,7 @@
   function loadJS(src, async) {
     var s = document.createElement('script');
     s.setAttribute('data-cfasync', 'false');
-    s.async = async !== false; // default true
+    s.async = async !== true; // default true
     s.src = src;
     document.body.appendChild(s);
   }
