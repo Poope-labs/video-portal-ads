@@ -1,21 +1,33 @@
 <section class="watch-page">
   <a class="back" href="/">← Kembali</a>
-  <h1 class="title"><%= v.title %></h1>
+  <h1 class="title"><%= v.title %> <span style="font-size:16px;color:#9bd;background:#13204a;border:1px solid #29427f;border-radius:8px;padding:2px 8px;margin-left:6px">TRAILER</span></h1>
   <p class="subtitle"><%= v.description %></p>
 
-  <!-- Iklan atas player (tempel script Monetag/Adsterra di sini) -->
+  <!-- ADS: Atas player -->
   <div class="ads-top">
+    <!-- Tempel script iklan Monetag/Adsterra di sini -->
     <div class="ad-placeholder">[ Zona Iklan Atas Player ]</div>
   </div>
 
-  <!-- Player -->
+  <!-- Player trailer -->
   <div class="player-card glow">
     <video class="player" controls preload="metadata" playsinline>
       <source src="<%= v.url %>" type="video/mp4"/>
     </video>
   </div>
 
-  <!-- Iklan bawah -->
+  <!-- CTA: Tonton FULL di Telegram -->
+  <% if (v.fullUrl) { %>
+  <div class="player-card" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <div>
+      <h3 style="margin:0 0 6px">Tonton FULL</h3>
+      <p class="subtitle" style="margin:0">Konten lengkap tersedia di link berikut.</p>
+    </div>
+    <a class="btn" href="<%= v.fullUrl %>" target="_blank" rel="noopener nofollow">▶ Tonton Full</a>
+  </div>
+  <% } %>
+
+  <!-- ADS: Bawah player -->
   <div class="ads-bottom">
     <div class="ad-card">
       <div class="ad-label">Adila Banner</div>
@@ -26,4 +38,19 @@
       <div class="ad-placeholder">[ Zona Monetag 300x250 ]</div>
     </div>
   </div>
+
+  <!-- Share URL (opsional ditampilkan) -->
+  <div class="player-card" style="margin-top:14px">
+    <div class="share-wrap" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <strong>Share URL:</strong>
+      <input id="shareUrl" type="text" value="<%= shareUrl %>" readonly style="flex:1;min-width:240px;background:#0f1530;border:1px solid #233059;border-radius:10px;color:#e9eeff;padding:8px"/>
+      <button class="btn small" onclick="copyShare()">Copy</button>
+    </div>
+  </div>
+  <script>
+    function copyShare(){
+      const el = document.getElementById('shareUrl');
+      el.select(); document.execCommand('copy');
+    }
+  </script>
 </section>
