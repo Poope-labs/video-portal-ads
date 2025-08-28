@@ -1,6 +1,9 @@
 <section class="watch-page">
   <a class="back" href="/">← Kembali</a>
-  <h1 class="title"><%= v.title %> <span style="font-size:16px;color:#9bd;background:#13204a;border:1px solid #29427f;border-radius:8px;padding:2px 8px;margin-left:6px">TRAILER</span></h1>
+  <h1 class="title">
+    <%= v.title %>
+    <span style="font-size:16px;color:#9bd;background:#13204a;border:1px solid #29427f;border-radius:8px;padding:2px 8px;margin-left:6px">TRAILER</span>
+  </h1>
   <p class="subtitle"><%= v.description %></p>
 
   <!-- ADS: Atas player -->
@@ -16,16 +19,23 @@
     </video>
   </div>
 
-  <!-- CTA: Tonton FULL di Telegram -->
-  <% if (v.fullUrl) { %>
-  <div class="player-card" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-    <div>
-      <h3 style="margin:0 0 6px">Tonton FULL</h3>
-      <p class="subtitle" style="margin:0">Konten lengkap tersedia di link berikut.</p>
+  <!-- CTA / Actions (rapi & jelas) -->
+  <div class="cta-card">
+    <% if (v.fullUrl) { %>
+      <a class="btn btn-primary" href="<%= v.fullUrl %>" target="_blank" rel="noopener nofollow">▶ Tonton FULL</a>
+    <% } else { %>
+      <div class="note">Link FULL belum ditambahkan.</div>
+    <% } %>
+
+    <div class="actions">
+      <input id="shareUrl" class="share-input" type="text" value="<%= shareUrl %>" readonly />
+      <button class="btn btn-outline" onclick="copyShare()">Copy Link</button>
+      <a class="btn btn-ghost" target="_blank"
+         href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(shareUrl) %>">
+        Bagikan FB
+      </a>
     </div>
-    <a class="btn" href="<%= v.fullUrl %>" target="_blank" rel="noopener nofollow">▶ Tonton Full</a>
   </div>
-  <% } %>
 
   <!-- ADS: Bawah player -->
   <div class="ads-bottom">
@@ -38,19 +48,11 @@
       <div class="ad-placeholder">[ Zona Monetag 300x250 ]</div>
     </div>
   </div>
-
-  <!-- Share URL (opsional ditampilkan) -->
-  <div class="player-card" style="margin-top:14px">
-    <div class="share-wrap" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-      <strong>Share URL:</strong>
-      <input id="shareUrl" type="text" value="<%= shareUrl %>" readonly style="flex:1;min-width:240px;background:#0f1530;border:1px solid #233059;border-radius:10px;color:#e9eeff;padding:8px"/>
-      <button class="btn small" onclick="copyShare()">Copy</button>
-    </div>
-  </div>
-  <script>
-    function copyShare(){
-      const el = document.getElementById('shareUrl');
-      el.select(); document.execCommand('copy');
-    }
-  </script>
 </section>
+
+<script>
+  function copyShare(){
+    const el = document.getElementById('shareUrl');
+    el.select(); document.execCommand('copy');
+  }
+</script>
