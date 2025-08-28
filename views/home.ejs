@@ -1,12 +1,19 @@
 <section class="hero">
   <h1 class="title">🎬 <span>Video Portal</span></h1>
-  <p class="subtitle">Upload dan tonton video dengan iklan Monetag/Adsterra</p>
+  <p class="subtitle">Trailer video + tonton full lewat Telegram</p>
+
+  <% if (isAdmin) { %>
+    <div style="margin-top:10px">
+      <a class="btn btn-outline" href="/admin?key=<%= adminKey %>">Masuk Admin</a>
+    </div>
+  <% } %>
 </section>
 
 <section class="video-grid">
   <% if (videos.length === 0) { %>
-    <div class="empty">Belum ada video. <a href="/admin" class="btn small">Upload di Admin</a>.</div>
+    <div class="empty">Belum ada video.</div>
   <% } %>
+
   <% videos.forEach(v => { %>
     <a class="video-card" href="/watch/<%= v.slug %>">
       <div class="thumb">
