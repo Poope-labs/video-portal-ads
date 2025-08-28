@@ -1,20 +1,44 @@
 <section class="watch">
-  <h1 class="title"><%= v.title %></h1>
+  <a href="/" class="back-link">← Kembali</a>
 
-  <div class="player-card glow">
-    <div class="ad-slot">[ Zona Iklan Atas Player ]</div>
-    <div class="player">
-      <video controls playsinline preload="metadata" src="<%= v.url %>"></video>
-    </div>
+  <h1 class="watch-title">
+    <span class="t"><%= v.title %></span>
+    <span class="badge-trailer">TRAILER</span>
+  </h1>
 
-    <div class="cta-wrap">
-      <% if (v.fullUrl) { %>
-        <a class="btn btn-primary" href="<%= v.fullUrl %>" target="_blank" rel="noopener">▶ Tonton FULL</a>
-      <% } else { %>
-        <div class="muted">Link FULL belum diisi.</div>
-      <% } %>
-    </div>
+  <!-- Zona iklan atas player -->
+  <div class="ad-slot-top">[ Zona Iklan Atas Player ]</div>
+
+  <!-- Player -->
+  <div class="player-card glow watch-wrap">
+    <video controls playsinline preload="metadata" src="<%= v.url %>"></video>
   </div>
 
-  <div class="meta"><p><%= v.description || '' %></p></div>
+  <!-- CTA nonton full -->
+  <% if (v.fullUrl) { %>
+    <div class="cta-wrap">
+      <a class="btn btn-primary" href="<%= v.fullUrl %>" target="_blank" rel="noopener">▶ Tonton FULL</a>
+    </div>
+  <% } %>
+
+  <!-- Panel share (hanya admin=1) -->
+  <% if (typeof showShare !== "undefined" && showShare) { %>
+    <div class="share-card">
+      <label class="muted">Link halaman ini</label>
+      <div class="share-row">
+        <input class="share-input" type="text" readonly value="<%= shareUrl %>">
+        <button class="btn btn-ghost" onclick="navigator.clipboard.writeText('<%= shareUrl %>')">Copy</button>
+      </div>
+      <div class="share-actions">
+        <a class="btn btn-outline" target="_blank" rel="noopener"
+           href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(shareUrl) %>">Bagikan FB</a>
+      </div>
+    </div>
+  <% } %>
+
+  <!-- Banner iklan bawah -->
+  <div class="ad-banner">
+    <div class="ad-box">Adila Banner<br>[ Zona Klik Adila ]</div>
+    <div class="ad-box">Monetag Box<br>[ Zona Monetag 300×250 ]</div>
+  </div>
 </section>
