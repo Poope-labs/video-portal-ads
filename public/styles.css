@@ -3,18 +3,26 @@
   --border:#2b356b; --grad1:#3a8ef6; --grad2:#6f3afa; --accent:#18e0c4; --danger:#ff5b6b;
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:radial-gradient(1200px 600px at 20% -10%,#151a41 0%,transparent 60%),var(--bg);
-          color:var(--text);font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Inter,Arial}
+html,body{
+  margin:0;padding:0;
+  background:radial-gradient(1200px 600px at 20% -10%,#151a41 0%,transparent 60%),var(--bg);
+  color:var(--text);font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Inter,Arial
+}
 a{color:inherit;text-decoration:none}
 .container{max-width:980px;margin:0 auto;padding:20px}
-.site-header{position:sticky;top:0;background:linear-gradient(180deg,rgba(10,12,27,.9),rgba(10,12,27,.6));backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid rgba(255,255,255,.06)}
+
+.site-header{position:sticky;top:0;background:linear-gradient(180deg,rgba(10,12,27,.9),rgba(10,12,27,.6));
+  backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid rgba(255,255,255,.06)}
 .brand{font-weight:800;font-size:20px;display:inline-flex;gap:8px;align-items:center}
 .site-footer{opacity:.7;border-top:1px solid rgba(255,255,255,.06);margin-top:32px}
+
 .title{font-size:28px;letter-spacing:.4px;margin:0 0 10px;font-weight:800}
 .subtitle{color:var(--muted);margin:0 0 24px}
 .hero{margin:8px 0 14px}
+
 .video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-.video-card{display:flex;flex-direction:column;background:linear-gradient(180deg,#13183a,#0e1433);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 10px 22px rgba(0,0,0,.25);transition:.2s transform}
+.video-card{display:flex;flex-direction:column;background:linear-gradient(180deg,#13183a,#0e1433);
+  border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 10px 22px rgba(0,0,0,.25);transition:.2s transform}
 .video-card:hover{transform:translateY(-2px)}
 .thumb{aspect-ratio:16/9;background:#0b0f24;display:flex;align-items:center;justify-content:center}
 .thumb video{width:100%;height:100%;object-fit:cover;opacity:.95;border-bottom:1px solid rgba(255,255,255,.06)}
@@ -38,10 +46,13 @@ a{color:inherit;text-decoration:none}
 .row-actions{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:0 14px 14px}
 
 .form.grid{display:grid;gap:12px}
-.input{width:100%;padding:10px 12px;background:#0f1530;border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px}
+.input{
+  width:100%;padding:10px 12px;background:#0f1530;border:1px solid var(--border);
+  border-radius:12px;color:var(--text);font-size:14px
+}
 .file-input{display:none} /* hide input file asli; pakai label tombol custom */
 
-/* ======== SEMBUNYIKAN ELEMEN UPLOAD DI HALAMAN PUBLIK ======== */
+/* ===== SEMBUNYIKAN SEMUA ELEMEN UPLOAD DI HALAMAN PUBLIK ===== */
 .page-home input[type="file"],
 .page-home .file-input,
 .page-home form[action*="/admin"],
