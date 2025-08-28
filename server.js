@@ -5,6 +5,7 @@ import multer from "multer";
 import slugify from "slugify";
 import mime from "mime-types";
 import dotenv from "dotenv";
+import expressLayouts from "express-ejs-layouts";
 
 dotenv.config();
 const app = express();
@@ -37,23 +38,27 @@ const upload = multer({
   }
 });
 
+// Views + layouts
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(expressLayouts);
+app.set("layout", "layout");
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/public", express.static(path.join(__dirname, "public")));
-app.use("/uploads", express.static(UPLOAD_DIR));
+app.use("/uploads", express.static(UPLOAD_DIR)); // serve video files
 
+// Helpers
 async function readVideos() { return fs.readJSON(DB_PATH); }
 async function writeVideos(v) { return fs.writeJSON(DB_PATH, v, { spaces: 2 }); }
 
-// Home page
-app.get("/", async (req, res) => {
-  const videos = (await readVideos()).sort((a,b)=>b.createdAt-a.createdAt);
+// Routes
+app.get("/", async (_req, res) => {
+  const videos = (await readVideos()).sort((a, b) => b.createdAt - a.createdAt);
   res.render("home", { videos, site: { title: "Video Portal" } });
 });
 
-// Watch page
 app.get("/watch/:slug", async (req, res) => {
   const videos = await readVideos();
   const v = videos.find(x => x.slug === req.params.slug);
@@ -61,9 +66,8 @@ app.get("/watch/:slug", async (req, res) => {
   res.render("watch", { v, site: { title: v.title } });
 });
 
-// Admin
-app.get("/admin", async (req, res) => {
-  const videos = (await readVideos()).sort((a,b)=>b.createdAt-a.createdAt);
+app.get("/admin", async (_req, res) => {
+  const videos = (await readVideos()).sort((a, b) => b.createdAt - a.createdAt);
   res.render("admin", { videos, site: { title: "Admin • Upload" } });
 });
 
@@ -99,10 +103,9 @@ app.post("/admin/delete/:slug", async (req, res) => {
   const videos = await readVideos();
   const idx = videos.findIndex(v => v.slug === req.params.slug);
   if (idx === -1) return res.redirect("/admin");
-
   const [v] = videos.splice(idx, 1);
   await writeVideos(videos);
-  if (v?.filename) await fs.remove(path.join(UPLOAD_DIR, v.filename)).catch(()=>{});
+  if (v?.filename) await fs.remove(path.join(UPLOAD_DIR, v.filename)).catch(() => {});
   res.redirect("/admin");
 });
 
