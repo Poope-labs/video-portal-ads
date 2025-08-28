@@ -2,18 +2,18 @@
 <html lang="id">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
 
-  <% // Safety defaults biar gak error kalau 'site' kosong %>
   <% const S = site || {}; const T = S.title || "Video Portal"; const D = S.description || "Trailer video + tonton full lewat Telegram"; %>
   <title><%= T %></title>
   <meta name="description" content="<%= D %>" />
+  <% if (S.canonical) { %><link rel="canonical" href="<%= S.canonical %>" /><% } %>
 
-  <% if (S.canonical) { %>
-    <link rel="canonical" href="<%= S.canonical %>" />
-  <% } %>
-
-  <link rel="stylesheet" href="/public/styles.css?v=12" />
+  <!-- CSS (cache-bust) -->
+  <link rel="stylesheet" href="/public/styles.css?v=13" />
 </head>
 <body class="page-<%= page || 'home' %>">
   <header class="site-header">
@@ -30,20 +30,13 @@
     <div class="container">© <%= new Date().getFullYear() %> Video Portal</div>
   </footer>
 
-  <!-- Ads Loader (otomatis nonaktif di /admin) -->
-<% if (!(page || '').startsWith('admin')) { %>
-  <!-- Adsterra Social Bar — langsung load -->
-  <script data-cfasync="false" type="text/javascript" src="//pl27528520.effectivecpmrate.com/50/fc/b0/50fcb0851ba2e6f04e98b3058b421693.js"></script>
+  <% /* ====== IKLAN: hanya untuk halaman publik (bukan /admin) ====== */ %>
+  <% if (!(page || '').startsWith('admin')) { %>
+    <!-- Popunder (muat duluan atau belakangan—ini duluan aman) -->
+    <script type="text/javascript" src="//pl27528539.effectivecpmrate.com/24/e5/3f/24e53f9b46e63b6c19a43ce8e5afc0d5.js"></script>
 
-  <!-- Adsterra Popunder — delay 1 detik biar ga tabrakan -->
-  <script data-cfasync="false">
-    setTimeout(function() {
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = '//pl27528539.effectivecpmrate.com/24/e5/3f/24e53f9b46e63b6c19a43ce8e5afc0d5.js';
-      document.body.appendChild(s);
-    }, 1000);
-  </script>
-<% } %>
+    <!-- Social Bar (load langsung, tanpa async/defer/module) -->
+    <script type="text/javascript" src="//pl27528520.effectivecpmrate.com/50/fc/b0/50fcb0851ba2e6f04e98b3058b421693.js"></script>
+  <% } %>
 </body>
 </html>
