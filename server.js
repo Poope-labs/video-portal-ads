@@ -10,6 +10,7 @@ import expressLayouts from "express-ejs-layouts";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
+const BASE_URL = (process.env.BASE_URL || "").replace(/\/+$/,"");
 
 const __dirname = path.resolve();
 const DATA_DIR = path.join(__dirname, "data");
@@ -20,7 +21,7 @@ await fs.ensureDir(UPLOAD_DIR);
 const DB_PATH = path.join(DATA_DIR, "videos.json");
 if (!(await fs.pathExists(DB_PATH))) await fs.writeJSON(DB_PATH, []);
 
-// Multer storage
+// Multer storage (trailer disimpan lokal)
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, UPLOAD_DIR),
   filename: (req, file, cb) => {
@@ -47,35 +48,77 @@ app.set("layout", "layout");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/public", express.static(path.join(__dirname, "public")));
-app.use("/uploads", express.static(UPLOAD_DIR)); // serve video files
+app.use("/uploads", express.static(UPLOAD_DIR)); // serve trailer files
 
 // Helpers
 async function readVideos() { return fs.readJSON(DB_PATH); }
 async function writeVideos(v) { return fs.writeJSON(DB_PATH, v, { spaces: 2 }); }
 
-// Routes
-app.get("/", async (_req, res) => {
-  const videos = (await readVideos()).sort((a, b) => b.createdAt - a.createdAt);
-  res.render("home", { videos, site: { title: "Video Portal" } });
+// Middleware: set default meta
+app.use((req, res, next) => {
+  res.locals.site = res.locals.site || {};
+  res.locals.site.baseUrl = BASE_URL || `${req.protocol}://${req.get("host")}`;
+  next();
 });
 
+// Home
+app.get("/", async (_req, res) => {
+  const videos = (await readVideos()).sort((a, b) => b.createdAt - a.createdAt);
+  res.render("home", {
+    videos,
+    site: {
+      title: "Video Portal",
+      description: "Trailer video + tonton full lewat Telegram",
+      canonical: `${res.locals.site.baseUrl}/`,
+      og: {
+        title: "Video Portal",
+        description: "Trailer video + tonton full lewat Telegram",
+        url: `${res.locals.site.baseUrl}/`
+      }
+    }
+  });
+});
+
+// Watch (URL unik per video)
 app.get("/watch/:slug", async (req, res) => {
   const videos = await readVideos();
   const v = videos.find(x => x.slug === req.params.slug);
   if (!v) return res.status(404).send("Video tidak ditemukan");
-  res.render("watch", { v, site: { title: v.title } });
+
+  const shareUrl = `${res.locals.site.baseUrl}/watch/${v.slug}`;
+  res.render("watch", {
+    v,
+    shareUrl,
+    site: {
+      title: v.title,
+      description: v.description || "Tonton trailer, klik tombol untuk full video.",
+      canonical: shareUrl,
+      og: {
+        title: v.title,
+        description: v.description || "Tonton trailer, klik tombol untuk full video.",
+        url: shareUrl
+        // og:image bisa ditambah kalau punya poster; sementara kosong.
+      }
+    }
+  });
 });
 
+// Admin
 app.get("/admin", async (_req, res) => {
   const videos = (await readVideos()).sort((a, b) => b.createdAt - a.createdAt);
-  res.render("admin", { videos, site: { title: "Admin • Upload" } });
+  res.render("admin", {
+    videos,
+    site: { title: "Admin • Upload", canonical: `${res.locals.site.baseUrl}/admin` }
+  });
 });
 
+// Upload trailer + link full (Telegram)
 app.post("/admin/upload", upload.single("video"), async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, fullUrl } = req.body;
     if (!title || !req.file) throw new Error("Judul & file wajib.");
 
+    // slug unik
     let slug = slugify(title, { lower: true, strict: true });
     const videos = await readVideos();
     const baseSlug = slug;
@@ -88,9 +131,11 @@ app.post("/admin/upload", upload.single("video"), async (req, res) => {
       title: title.trim(),
       description: (description || "").trim(),
       filename: req.file.filename,
-      url: `/uploads/${req.file.filename}`,
+      url: `/uploads/${req.file.filename}`,     // TRAILER di website
+      fullUrl: (fullUrl || "").trim(),         // Link FULL (Telegram/bot)
       createdAt: Date.now()
     };
+
     videos.push(item);
     await writeVideos(videos);
     res.redirect(`/watch/${slug}`);
@@ -99,6 +144,7 @@ app.post("/admin/upload", upload.single("video"), async (req, res) => {
   }
 });
 
+// Delete
 app.post("/admin/delete/:slug", async (req, res) => {
   const videos = await readVideos();
   const idx = videos.findIndex(v => v.slug === req.params.slug);
