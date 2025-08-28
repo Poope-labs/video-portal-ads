@@ -5,7 +5,7 @@
 
 <section class="video-grid">
   <% if (videos.length === 0) { %>
-    <div class="empty">Belum ada video. <a href="/admin">Upload di Admin</a>.</div>
+    <div class="empty">Belum ada video. <a href="/admin" class="btn small">Upload di Admin</a>.</div>
   <% } %>
   <% videos.forEach(v => { %>
     <a class="video-card" href="/watch/<%= v.slug %>">
