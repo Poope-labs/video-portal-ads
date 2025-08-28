@@ -3,16 +3,19 @@
   <h1 class="title"><%= v.title %></h1>
   <p class="subtitle"><%= v.description %></p>
 
+  <!-- Iklan atas player (tempel script Monetag/Adsterra di sini) -->
   <div class="ads-top">
     <div class="ad-placeholder">[ Zona Iklan Atas Player ]</div>
   </div>
 
+  <!-- Player -->
   <div class="player-card glow">
     <video class="player" controls preload="metadata" playsinline>
       <source src="<%= v.url %>" type="video/mp4"/>
     </video>
   </div>
 
+  <!-- Iklan bawah -->
   <div class="ads-bottom">
     <div class="ad-card">
       <div class="ad-label">Adila Banner</div>
