@@ -64,11 +64,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// ---------- ADMIN PROTECT ----------
 function checkAdmin(req, res, next) {
-  const key = req.query.key || req.body.key || "";
-  if (ADMIN_KEY && key === ADMIN_KEY) return next();
-  res.status(403).send("Forbidden: Admin key required");
+  const key = (req.query.key || req.body.key || req.get("x-admin-key") || "").trim();
+  if (process.env.ADMIN_KEY && key === process.env.ADMIN_KEY) return next();
+  return res.status(403).send("Forbidden: Admin key required");
 }
 // -----------------------------------
 
