@@ -6,12 +6,13 @@
       <input type="hidden" name="key" value="<%= adminKey %>">
 
       <input class="input" name="title" type="text" placeholder="Judul trailer" required>
-      <textarea class="input" name="description" rows="3" placeholder="Deskripsi singkat"></textarea>
+      <textarea class="input" name="description" rows="3" placeholder="Deskripsi singkat (opsional)"></textarea>
       <input class="input" name="fullUrl" type="url" placeholder="Link nonton FULL (Telegram/Bot) — opsional">
 
       <!-- input file disembunyikan, pakai tombol custom -->
       <label for="video" class="btn btn-outline" style="justify-self:flex-start">Pilih Trailer</label>
-      <input id="video" class="file-input" name="video" type="file" accept="video/mp4,video/webm,video/ogg" required>
+      <input id="video" class="file-input" name="video" type="file"
+             accept="video/mp4,video/webm,video/ogg" required>
 
       <button class="btn btn-primary" type="submit">⬆️ Upload</button>
     </form>
@@ -35,7 +36,8 @@
         </div>
         <div class="row-actions">
           <a class="btn btn-ghost" href="/watch/<%= v.slug %>?admin=1" target="_blank">Lihat</a>
-          <form method="post" action="/admin/delete/<%= v.slug %>?key=<%= adminKey %>" onsubmit="return confirm('Hapus video ini?')">
+          <form method="post" action="/admin/delete/<%= v.slug %>?key=<%= adminKey %>"
+                onsubmit="return confirm('Hapus video ini?')">
             <input type="hidden" name="key" value="<%= adminKey %>">
             <button class="btn btn-danger" type="submit">Hapus</button>
           </form>
