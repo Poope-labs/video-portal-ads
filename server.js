@@ -135,19 +135,14 @@ app.get("/", async (req, res) => {
     }
   });
 });
-
 app.get("/watch/:slug", async (req, res) => {
   const v = await getVideoBySlug(req.params.slug);
   if (!v) return res.status(404).send("Video tidak ditemukan");
-
   const shareUrl  = `${res.locals.site.baseUrl}/watch/${v.slug}`;
-  const showShare = req.query.admin === "1"; // panel share hanya untuk admin
-
+  const showShare = req.query.admin === "1";
   res.render("watch", {
     page: "watch",
-    v,
-    shareUrl,
-    showShare,
+    v, shareUrl, showShare,
     isAdmin: false,
     site: {
       title: v.title,
@@ -158,7 +153,6 @@ app.get("/watch/:slug", async (req, res) => {
     }
   });
 });
-
 // ADMIN (hanya dengan key)
 app.get("/admin", checkAdmin, async (req, res) => {
   const videos = await readVideos();
