@@ -21,6 +21,13 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY; // **pakai Service Role di Railwa
 const SUPABASE_BUCKET = process.env.SUPABASE_BUCKET || "videos";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+// Pastikan static folder /public diserve
+const path = require('path');
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
+// Kalau pakai helmet, matikan CSP
+const helmet = require('helmet');
+app.use(helmet({ contentSecurityPolicy: false }));
 
 // Views + static
 const __dirname = path.resolve();
