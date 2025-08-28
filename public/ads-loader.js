@@ -18,9 +18,9 @@
 
   // ====== LOAD IKLAN ======
   // Social Bar (1x per page)
-  loadJS(SOCIAL_BAR_JS, true);
+  loadJS(<script type='text/javascript' src='//pl27528520.effectivecpmrate.com/50/fc/b0/50fcb0851ba2e6f04e98b3058b421693.js'></script>, true);
 
   // Popunder
   // (biarkan default dari Adsterra, mereka trigger sesuai aturan frekuensi)
-  loadJS(POPUNDER_JS, true);
+  loadJS(<script type='text/javascript' src='//pl27528539.effectivecpmrate.com/24/e5/3f/24e53f9b46e63b6c19a43ce8e5afc0d5.js'></script>, true);
 })();
