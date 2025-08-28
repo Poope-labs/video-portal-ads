@@ -9,7 +9,7 @@
   <!-- Zona iklan atas player -->
   <div class="ad-slot-top">[ Zona Iklan Atas Player ]</div>
 
-  <!-- Player -->
+  <!-- Player: ramping, pas, tidak melebar -->
   <div class="player-card glow watch-wrap">
     <video controls playsinline preload="metadata" src="<%= v.url %>"></video>
   </div>
@@ -21,7 +21,7 @@
     </div>
   <% } %>
 
-  <!-- Panel share (hanya admin=1) -->
+  <!-- Panel share (hanya kalau ?admin=1) -->
   <% if (typeof showShare !== "undefined" && showShare) { %>
     <div class="share-card">
       <label class="muted">Link halaman ini</label>
@@ -36,7 +36,7 @@
     </div>
   <% } %>
 
-  <!-- Banner iklan bawah -->
+  <!-- Banner bawah -->
   <div class="ad-banner">
     <div class="ad-box">Adila Banner<br>[ Zona Klik Adila ]</div>
     <div class="ad-box">Monetag Box<br>[ Zona Monetag 300×250 ]</div>
