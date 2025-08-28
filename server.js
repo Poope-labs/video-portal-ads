@@ -10,18 +10,21 @@ import expressLayouts from "express-ejs-layouts";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
-const BASE_URL = (process.env.BASE_URL || "").replace(/\/+$/,"");
+const BASE_URL = (process.env.BASE_URL || "").replace(/\/+$/, "");
+const ADMIN_KEY = process.env.ADMIN_KEY || "";
 
+// paths
 const __dirname = path.resolve();
 const DATA_DIR = path.join(__dirname, "data");
 const UPLOAD_DIR = path.join(__dirname, "uploads");
 await fs.ensureDir(DATA_DIR);
 await fs.ensureDir(UPLOAD_DIR);
 
+// tiny DB
 const DB_PATH = path.join(DATA_DIR, "videos.json");
 if (!(await fs.pathExists(DB_PATH))) await fs.writeJSON(DB_PATH, []);
 
-// Multer storage (trailer disimpan lokal)
+// upload (local trailer)
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, UPLOAD_DIR),
   filename: (req, file, cb) => {
@@ -32,14 +35,14 @@ const storage = multer.diskStorage({
 });
 const upload = multer({
   storage,
-  limits: { fileSize: 1024 * 1024 * 300 }, // 300MB
+  limits: { fileSize: 1024 * 1024 * 300 },
   fileFilter: (req, file, cb) => {
     const ok = ["video/mp4", "video/webm", "video/ogg"].includes(file.mimetype);
     cb(ok ? null : new Error("Format video harus mp4/webm/ogg"), ok);
   }
 });
 
-// Views + layouts
+// views + static
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(expressLayouts);
@@ -48,20 +51,28 @@ app.set("layout", "layout");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/public", express.static(path.join(__dirname, "public")));
-app.use("/uploads", express.static(UPLOAD_DIR)); // serve trailer files
+app.use("/uploads", express.static(UPLOAD_DIR));
 
-// Helpers
+// helpers
 async function readVideos() { return fs.readJSON(DB_PATH); }
 async function writeVideos(v) { return fs.writeJSON(DB_PATH, v, { spaces: 2 }); }
 
-// Middleware: set default meta
+// baseUrl helper
 app.use((req, res, next) => {
   res.locals.site = res.locals.site || {};
   res.locals.site.baseUrl = BASE_URL || `${req.protocol}://${req.get("host")}`;
   next();
 });
 
-// Home
+// ---------- ADMIN PROTECT ----------
+function checkAdmin(req, res, next) {
+  const key = req.query.key || req.body.key || "";
+  if (ADMIN_KEY && key === ADMIN_KEY) return next();
+  res.status(403).send("Forbidden: Admin key required");
+}
+// -----------------------------------
+
+// HOME
 app.get("/", async (_req, res) => {
   const videos = (await readVideos()).sort((a, b) => b.createdAt - a.createdAt);
   res.render("home", {
@@ -79,16 +90,19 @@ app.get("/", async (_req, res) => {
   });
 });
 
-// Watch (URL unik per video)
+// WATCH (URL unik)
 app.get("/watch/:slug", async (req, res) => {
   const videos = await readVideos();
   const v = videos.find(x => x.slug === req.params.slug);
   if (!v) return res.status(404).send("Video tidak ditemukan");
 
   const shareUrl = `${res.locals.site.baseUrl}/watch/${v.slug}`;
+  const isAdmin = (req.query.admin === "1") || ((req.query.key || "") === ADMIN_KEY);
+
   res.render("watch", {
     v,
     shareUrl,
+    isAdmin,
     site: {
       title: v.title,
       description: v.description || "Tonton trailer, klik tombol untuk full video.",
@@ -97,23 +111,22 @@ app.get("/watch/:slug", async (req, res) => {
         title: v.title,
         description: v.description || "Tonton trailer, klik tombol untuk full video.",
         url: shareUrl
-        // og:image bisa ditambah kalau punya poster; sementara kosong.
       }
     }
   });
 });
 
-// Admin
-app.get("/admin", async (_req, res) => {
+// ADMIN (protected)
+app.get("/admin", checkAdmin, async (req, res) => {
   const videos = (await readVideos()).sort((a, b) => b.createdAt - a.createdAt);
   res.render("admin", {
     videos,
+    adminKey: req.query.key, // biar form/action bisa ikut bawa key
     site: { title: "Admin • Upload", canonical: `${res.locals.site.baseUrl}/admin` }
   });
 });
 
-// Upload trailer + link full (Telegram)
-app.post("/admin/upload", upload.single("video"), async (req, res) => {
+app.post("/admin/upload", checkAdmin, upload.single("video"), async (req, res) => {
   try {
     const { title, description, fullUrl } = req.body;
     if (!title || !req.file) throw new Error("Judul & file wajib.");
@@ -131,28 +144,32 @@ app.post("/admin/upload", upload.single("video"), async (req, res) => {
       title: title.trim(),
       description: (description || "").trim(),
       filename: req.file.filename,
-      url: `/uploads/${req.file.filename}`,     // TRAILER di website
-      fullUrl: (fullUrl || "").trim(),         // Link FULL (Telegram/bot)
+      url: `/uploads/${req.file.filename}`, // trailer file
+      fullUrl: (fullUrl || "").trim(),     // link FULL (Telegram/bot)
       createdAt: Date.now()
     };
 
     videos.push(item);
     await writeVideos(videos);
-    res.redirect(`/watch/${slug}`);
+
+    // balik ke admin dengan key
+    const key = encodeURIComponent(req.body.key || "");
+    res.redirect(`/admin?key=${key}`);
   } catch (err) {
     res.status(400).send(String(err.message || err));
   }
 });
 
-// Delete
-app.post("/admin/delete/:slug", async (req, res) => {
+app.post("/admin/delete/:slug", checkAdmin, async (req, res) => {
   const videos = await readVideos();
   const idx = videos.findIndex(v => v.slug === req.params.slug);
-  if (idx === -1) return res.redirect("/admin");
-  const [v] = videos.splice(idx, 1);
-  await writeVideos(videos);
-  if (v?.filename) await fs.remove(path.join(UPLOAD_DIR, v.filename)).catch(() => {});
-  res.redirect("/admin");
+  if (idx !== -1) {
+    const [v] = videos.splice(idx, 1);
+    await writeVideos(videos);
+    if (v?.filename) await fs.remove(path.join(UPLOAD_DIR, v.filename)).catch(() => {});
+  }
+  const key = encodeURIComponent(req.body.key || req.query.key || "");
+  res.redirect(`/admin?key=${key}`);
 });
 
 app.listen(PORT, () => {
