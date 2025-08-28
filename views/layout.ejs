@@ -3,10 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <% // Safety defaults biar gak error kalau 'site' kosong %>
   <% const S = site || {}; const T = S.title || "Video Portal"; const D = S.description || "Trailer video + tonton full lewat Telegram"; %>
   <title><%= T %></title>
   <meta name="description" content="<%= D %>" />
-  <link rel="stylesheet" href="/public/styles.css" />
+
+  <% if (S.canonical) { %>
+    <link rel="canonical" href="<%= S.canonical %>" />
+  <% } %>
+
+  <link rel="stylesheet" href="/public/styles.css?v=12" />
 </head>
 <body class="page-<%= page || 'home' %>">
   <header class="site-header">
@@ -19,9 +26,11 @@
     <%- body %>
   </main>
 
-  <footer class="site-footer"><div class="container">© <%= new Date().getFullYear() %> Video Portal</div></footer>
+  <footer class="site-footer">
+    <div class="container">© <%= new Date().getFullYear() %> Video Portal</div>
+  </footer>
+
+  <!-- Ads Loader (otomatis nonaktif di /admin) -->
+  <script src="/ads-loader.js?v=1"></script>
 </body>
-    <!-- Ads Loader -->
-    <script src="/ads-loader.js"></script>
-  </body>
 </html>
