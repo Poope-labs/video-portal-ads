@@ -1,21 +1,35 @@
 <section class="admin-wrap">
-  <h1 class="title">Admin — Upload Video</h1>
+  <h1 class="title">Admin — Upload Trailer</h1>
+
   <form class="form" action="/admin/upload" method="post" enctype="multipart/form-data">
-    <input name="title" type="text" placeholder="Judul video" required />
+    <input name="title" type="text" placeholder="Judul trailer" required />
     <textarea name="description" rows="3" placeholder="Deskripsi singkat"></textarea>
+
+    <!-- Link FULL (Telegram/bot/apa pun) -->
+    <input name="fullUrl" type="url" placeholder="Link nonton FULL (Telegram / Bot) — opsional" />
+
     <input name="video" type="file" accept="video/mp4,video/webm,video/ogg" required/>
     <button class="btn">Upload</button>
   </form>
 
-  <h2 class="title" style="font-size:22px;margin-top:10px">Daftar Video</h2>
+  <h2 class="title" style="font-size:22px;margin-top:10px">Daftar Trailer</h2>
   <div class="video-grid">
     <% videos.forEach(v => { %>
       <div class="video-card">
         <div class="meta" style="padding:14px">
-          <h3><%= v.title %></h3>
-          <p class="subtitle" style="margin:6px 0"><%= new Date(v.createdAt).toLocaleString() %></p>
-          <a class="btn small" href="/watch/<%= v.slug %>">Lihat</a>
-          <form method="post" action="/admin/delete/<%= v.slug %>" class="inline" style="display:inline-block;margin-left:8px">
+          <h3 style="margin:0 0 6px"><%= v.title %></h3>
+          <p class="subtitle" style="margin:0 0 8px"><%= new Date(v.createdAt).toLocaleString() %></p>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
+            <a class="btn small" href="/watch/<%= v.slug %>" target="_blank">Open</a>
+            <input type="text" value="<%= site.baseUrl %>/watch/<%= v.slug %>" readonly style="flex:1;min-width:220px;background:#0f1530;border:1px solid #233059;border-radius:10px;color:#e9eeff;padding:6px"/>
+          </div>
+
+          <% if (v.fullUrl) { %>
+            <p style="margin:6px 0;color:#9bd">Full link: <a href="<%= v.fullUrl %>" target="_blank" rel="noopener nofollow">buka</a></p>
+          <% } %>
+
+          <form method="post" action="/admin/delete/<%= v.slug %>" class="inline" style="display:inline-block;margin-top:6px">
             <button class="btn danger small" type="submit" onclick="return confirm('Hapus video ini?')">Hapus</button>
           </form>
         </div>
