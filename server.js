@@ -71,11 +71,17 @@ function checkAdmin(req, res, next) {
 }
 // -----------------------------------
 
-// HOME
-app.get("/", async (_req, res) => {
+// HOME (publik) — tanpa form upload
+app.get("/", async (req, res) => {
   const videos = (await readVideos()).sort((a, b) => b.createdAt - a.createdAt);
+
+  // deteksi admin dari query key (biar bisa munculin tombol Admin kecil)
+  const isAdmin = (req.query.key || "") === (process.env.ADMIN_KEY || "");
+
   res.render("home", {
     videos,
+    isAdmin,
+    adminKey: isAdmin ? req.query.key : "", // dipakai untuk link /admin
     site: {
       title: "Video Portal",
       description: "Trailer video + tonton full lewat Telegram",
@@ -88,7 +94,6 @@ app.get("/", async (_req, res) => {
     }
   });
 });
-
 // WATCH (URL unik)
 app.get("/watch/:slug", async (req, res) => {
   const videos = await readVideos();
