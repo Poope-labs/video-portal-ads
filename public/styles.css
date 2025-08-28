@@ -125,3 +125,11 @@ img,video{display:block;max-width:100%}
 
 /* Mobile tweak */
 @media (max-width:520px){ .title{font-size:34px} }
+/* form grid di admin */
+.form.grid { display: grid; gap: 12px; }
+.input{
+  width:100%;padding:10px 12px;background:#0f1530;border:1px solid #2b356b;
+  border-radius:12px;color:#e9eeff;font-size:14px
+}
+/* sembunyikan input file asli (biar gak muncul “Pilih File 1000xxx.mp4”) */
+.file-input { display: none; }
