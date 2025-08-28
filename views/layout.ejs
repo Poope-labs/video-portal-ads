@@ -31,10 +31,19 @@
   </footer>
 
   <!-- Ads Loader (otomatis nonaktif di /admin) -->
-  <script src="/ads-loader.js?v=1"></script>
 <% if (!(page || '').startsWith('admin')) { %>
-<script type="text/javascript" src="//pl27528520.effectivecpmrate.com/50/fc/b0/50fcb0851ba2e6f04e98b3058b421693.js" data-cfasync="false"></script>
-<script type="text/javascript" src="//pl27528539.effectivecpmrate.com/24/e5/3f/24e53f9b46e63b6c19a43ce8e5afc0d5.js" data-cfasync="false"></script>
+  <!-- Adsterra Social Bar — langsung load -->
+  <script data-cfasync="false" type="text/javascript" src="//pl27528520.effectivecpmrate.com/50/fc/b0/50fcb0851ba2e6f04e98b3058b421693.js"></script>
+
+  <!-- Adsterra Popunder — delay 1 detik biar ga tabrakan -->
+  <script data-cfasync="false">
+    setTimeout(function() {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = '//pl27528539.effectivecpmrate.com/24/e5/3f/24e53f9b46e63b6c19a43ce8e5afc0d5.js';
+      document.body.appendChild(s);
+    }, 1000);
+  </script>
 <% } %>
 </body>
 </html>
