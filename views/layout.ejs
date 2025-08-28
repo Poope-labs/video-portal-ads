@@ -1,42 +1,31 @@
 <!doctype html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title><%= site?.title || "Video Portal" %></title>
-  <meta name="description" content="<%= site?.description || 'Trailer video + tonton full di Telegram' %>"/>
-  <link rel="canonical" href="<%= site?.canonical || '' %>"/>
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website"/>
-  <meta property="og:title" content="<%= site?.og?.title || site?.title || 'Video Portal' %>"/>
-  <meta property="og:description" content="<%= site?.og?.description || site?.description || '' %>"/>
-  <meta property="og:url" content="<%= site?.og?.url || site?.canonical || '' %>"/>
-  <% if (site?.og?.image) { %>
-  <meta property="og:image" content="<%= site.og.image %>"/>
-  <% } %>
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="<%= site?.og?.title || site?.title || 'Video Portal' %>"/>
-  <meta name="twitter:description" content="<%= site?.og?.description || site?.description || '' %>"/>
-  <% if (site?.og?.image) { %>
-  <meta name="twitter:image" content="<%= site.og.image %>"/>
-  <% } %>
-
-  <meta name="theme-color" content="#0a0f1f"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/public/styles.css"/>
-
-  <!-- Tempel SDK iklan global di sini kalau perlu -->
-  <!-- <script src="//libtl.com/sdk.js" data-zone="YOUR_MONETAG_ZONE" data-sdk="show_YOUR_MONETAG_ZONE"></script> -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= (site && site.title) || "Video Portal" %></title>
+  <meta name="description" content="<%= (site && site.description) || 'Trailer video + tonton full lewat Telegram' %>">
+  <link rel="canonical" href="<%= site?.canonical || (site?.baseUrl || '') %>">
+  <meta property="og:title" content="<%= site?.og?.title || site?.title || 'Video Portal' %>">
+  <meta property="og:description" content="<%= site?.og?.description || site?.description || '' %>">
+  <meta property="og:url" content="<%= site?.og?.url || site?.canonical || '' %>">
+  <link rel="stylesheet" href="/public/styles.css">
 </head>
-<body>
+<body class="page-<%= page || 'home' %>">
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand">🎬 <span>Video Portal</span></a>
+    </div>
+  </header>
+
   <main class="container">
     <%- body %>
   </main>
-  <script src="/public/js/player.js"></script>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <%= new Date().getFullYear() %> Video Portal</p>
+    </div>
+  </footer>
 </body>
 </html>
