@@ -1,7 +1,8 @@
 <section class="admin-wrap">
   <h1 class="title">Admin — Upload Trailer</h1>
 
-  <form class="form" action="/admin/upload" method="post" enctype="multipart/form-data">
+  <!-- kirim key lewat query & hidden input -->
+  <form class="form" action="/admin/upload?key=<%= adminKey %>" method="post" enctype="multipart/form-data">
     <input type="hidden" name="key" value="<%= adminKey %>"/>
     <input name="title" type="text" placeholder="Judul trailer" required />
     <textarea name="description" rows="3" placeholder="Deskripsi singkat"></textarea>
