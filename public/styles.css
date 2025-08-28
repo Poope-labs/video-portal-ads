@@ -53,3 +53,41 @@ a{color:inherit;text-decoration:none}
 .page-home label[for="video"],
 .page-home .btn.btn-primary[type="submit"],
 .page-home .form { display:none !important; }
+/* ===== WATCH PAGE (balik seperti screenshot) ===== */
+.back-link{display:inline-block;margin:6px 0 4px;color:var(--muted);font-size:14px}
+.watch-title{display:flex;align-items:center;gap:8px;margin:6px 0 10px}
+.watch-title .t{font-size:36px;font-weight:800;letter-spacing:.3px}
+.badge-trailer{
+  font-size:13px;font-weight:800;letter-spacing:.6px;
+  padding:6px 10px;border-radius:12px;border:1px solid var(--border);
+  background:rgba(98,120,255,.12)
+}
+
+/* zona iklan atas */
+.ad-slot-top{
+  border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center;
+  color:var(--muted);background:rgba(255,255,255,.03);margin:8px 0 12px
+}
+
+/* player proporsional & tidak segede gaban */
+.watch-wrap{max-width:520px;margin:0 auto 12px;border-radius:18px;overflow:hidden}
+.watch-wrap video{width:100%;display:block;background:#000}
+
+.cta-wrap{display:flex;justify-content:center;margin:6px 0 8px}
+.btn-primary{background:linear-gradient(90deg,var(--grad1),var(--grad2));border:none;color:#fff}
+
+/* panel share (opsional, admin=1) */
+.share-card{max-width:520px;margin:10px auto 0;border:1px solid var(--border);
+  border-radius:14px;padding:12px;background:rgba(255,255,255,.03)}
+.share-row{display:flex;gap:8px;align-items:center}
+.share-input{flex:1;padding:10px 12px;background:#0f1530;border:1px solid var(--border);
+  border-radius:10px;color:var(--text);font-size:14px}
+.share-actions{margin-top:8px;display:flex;gap:8px}
+
+/* banner bawah */
+.ad-banner{max-width:680px;margin:16px auto 0;display:flex;flex-direction:column;gap:14px}
+.ad-box{border:1px dashed var(--border);border-radius:12px;padding:16px;text-align:center;color:var(--muted);
+  background:rgba(255,255,255,.03)}
+@media (min-width:720px){
+  .watch-wrap{max-width:640px}
+}
