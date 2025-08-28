@@ -1,44 +1,65 @@
 <section class="watch">
-  <a href="/" class="back-link">← Kembali</a>
+  <a href="/" class="back-link" style="display:inline-block;margin:6px 0 4px;color:#98a4c5;font-size:14px">← Kembali</a>
 
-  <h1 class="watch-title">
-    <span class="t"><%= v.title %></span>
-    <span class="badge-trailer">TRAILER</span>
+  <h1 class="watch-title" style="display:flex;align-items:center;gap:8px;margin:6px 0 10px">
+    <span class="t" style="font-size:36px;font-weight:800;letter-spacing:.3px"><%= v.title %></span>
+    <span class="badge-trailer" style="font-size:13px;font-weight:800;letter-spacing:.6px;padding:6px 10px;border-radius:12px;border:1px solid #2b356b;background:rgba(98,120,255,.12)">TRAILER</span>
   </h1>
 
-  <!-- Zona iklan atas player -->
-  <div class="ad-slot-top">[ Zona Iklan Atas Player ]</div>
-
-  <!-- Player: ramping, pas, tidak melebar -->
-  <div class="player-card glow watch-wrap">
-    <video controls playsinline preload="metadata" src="<%= v.url %>"></video>
+  <div class="ad-slot-top" style="border:1px solid #2b356b;border-radius:14px;padding:14px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03);margin:8px 0 12px">
+    [ Zona Iklan Atas Player ]
   </div>
 
-  <!-- CTA nonton full -->
+  <!-- PLAYER KECIL + PAKU RASIO 16:9 (tidak memanjang meski video portrait) -->
+  <div class="player-shell"
+       style="
+         width:100%;max-width:360px; /* <= ubah ke 340/380 kalau mau */
+         aspect-ratio:16/9;         /* KUNCI TINGGI */
+         margin:0 auto 12px;border-radius:16px;overflow:hidden;
+         box-shadow:0 0 24px rgba(0,0,0,.35);background:#000;
+       ">
+    <video
+      controls playsinline preload="metadata" src="<%= v.url %>"
+      style="
+        width:100%;height:100%;
+        object-fit:contain;        /* LETTERBOX: video portrait tetap muat tanpa tinggi berlebih */
+        background:#000;display:block;border-radius:16px;
+      ">
+    </video>
+  </div>
+
   <% if (v.fullUrl) { %>
-    <div class="cta-wrap">
-      <a class="btn btn-primary" href="<%= v.fullUrl %>" target="_blank" rel="noopener">▶ Tonton FULL</a>
+    <div class="cta-wrap" style="display:flex;justify-content:center;margin:6px 0 8px">
+      <a class="btn btn-primary"
+         style="display:inline-flex;gap:8px;align-items:center;justify-content:center;padding:12px 16px;border-radius:12px;border:none;
+                background:linear-gradient(90deg,#3a8ef6,#6f3afa);color:#fff;font-weight:700"
+         href="<%= v.fullUrl %>" target="_blank" rel="noopener">▶ Tonton FULL</a>
     </div>
   <% } %>
 
-  <!-- Panel share (hanya kalau ?admin=1) -->
   <% if (typeof showShare !== "undefined" && showShare) { %>
-    <div class="share-card">
-      <label class="muted">Link halaman ini</label>
-      <div class="share-row">
-        <input class="share-input" type="text" readonly value="<%= shareUrl %>">
-        <button class="btn btn-ghost" onclick="navigator.clipboard.writeText('<%= shareUrl %>')">Copy</button>
+    <div class="share-card" style="max-width:360px;margin:10px auto 0;border:1px solid #2b356b;border-radius:14px;padding:12px;background:rgba(255,255,255,.03)">
+      <label style="color:#98a4c5;display:block;margin-bottom:6px">Link halaman ini</label>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input type="text" readonly value="<%= shareUrl %>"
+               style="flex:1;padding:10px 12px;background:#0f1530;border:1px solid #2b356b;border-radius:10px;color:#e9eeff;font-size:14px">
+        <button onclick="navigator.clipboard.writeText('<%= shareUrl %>')"
+                style="padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#e9eeff;font-weight:700;cursor:pointer">
+          Copy
+        </button>
       </div>
-      <div class="share-actions">
-        <a class="btn btn-outline" target="_blank" rel="noopener"
-           href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(shareUrl) %>">Bagikan FB</a>
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <a target="_blank" rel="noopener"
+           href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(shareUrl) %>"
+           style="padding:10px 14px;border-radius:10px;border:1px solid #2b356b;background:transparent;color:#e6ebff;font-weight:700">
+           Bagikan FB
+        </a>
       </div>
     </div>
   <% } %>
 
-  <!-- Banner bawah -->
-  <div class="ad-banner">
-    <div class="ad-box">Adila Banner<br>[ Zona Klik Adila ]</div>
-    <div class="ad-box">Monetag Box<br>[ Zona Monetag 300×250 ]</div>
+  <div class="ad-banner" style="max-width:680px;margin:16px auto 0;display:flex;flex-direction:column;gap:14px">
+    <div class="ad-box" style="border:1px dashed #2b356b;border-radius:12px;padding:16px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03)">Adila Banner<br>[ Zona Klik Adila ]</div>
+    <div class="ad-box" style="border:1px dashed #2b356b;border-radius:12px;padding:16px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03)">Monetag Box<br>[ Zona Monetag 300×250 ]</div>
   </div>
 </section>
