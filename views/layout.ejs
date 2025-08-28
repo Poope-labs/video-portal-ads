@@ -1,30 +1,17 @@
 <!doctype html>
 <html lang="id">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <%
-    const S = typeof site === 'object' && site ? site : {};
-    const og  = (S.og && typeof S.og === 'object') ? S.og : {};
-    const title = S.title || "Video Portal";
-    const desc  = S.description || "Trailer video + tonton full lewat Telegram";
-    const canon = S.canonical || (S.baseUrl || "");
-    const ogTitle = og.title || title;
-    const ogDesc  = og.description || desc;
-    const ogUrl   = og.url || canon;
-  %>
-  <title><%= title %></title>
-  <meta name="description" content="<%= desc %>">
-  <% if (canon) { %><link rel="canonical" href="<%= canon %>"><% } %>
-  <% if (ogTitle) { %><meta property="og:title" content="<%= ogTitle %>"><% } %>
-  <% if (ogDesc)  { %><meta property="og:description" content="<%= ogDesc %>"><% } %>
-  <% if (ogUrl)   { %><meta property="og:url" content="<%= ogUrl %>"><% } %>
-  <link rel="stylesheet" href="/public/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <% const S = site || {}; const T = S.title || "Video Portal"; const D = S.description || "Trailer video + tonton full lewat Telegram"; %>
+  <title><%= T %></title>
+  <meta name="description" content="<%= D %>" />
+  <link rel="stylesheet" href="/public/styles.css" />
 </head>
-<body class="page-<%= (typeof page === 'string' && page) ? page : 'home' %>">
+<body class="page-<%= page || 'home' %>">
   <header class="site-header">
     <div class="container">
-      <a href="/" class="brand">🎬 <span>Video Portal</span></a>
+      <a class="brand" href="/">🎬 <span>Video Portal</span></a>
     </div>
   </header>
 
@@ -32,10 +19,6 @@
     <%- body %>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <%= new Date().getFullYear() %> Video Portal</p>
-    </div>
-  </footer>
+  <footer class="site-footer"><div class="container">© <%= new Date().getFullYear() %> Video Portal</div></footer>
 </body>
 </html>
