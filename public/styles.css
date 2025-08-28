@@ -1,135 +1,54 @@
 :root{
-  --bg:#0a0f1f; --bg2:#0b1026;
-  --card:#0f1530; --line:#202756;
-  --ink:#e9edff; --muted:#94a3c7;
-  --brand1:#5dd3ff; --brand2:#9c5dff; --accent:#1cf0c7;
-  --danger:#ff4d6d; --radius:18px;
-  --shadow:0 12px 40px rgba(0,0,0,.45);
+  --bg:#0b0f24; --bg2:#0d1230; --card:#121739; --muted:#98a4c5; --text:#e9eeff;
+  --border:#2b356b; --grad1:#3a8ef6; --grad2:#6f3afa; --accent:#18e0c4; --danger:#ff5b6b;
 }
 *{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0; color:var(--ink);
-  font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
-  background:
-    radial-gradient(1200px 900px at 15% -10%, #1a2060 0%, transparent 50%),
-    radial-gradient(1000px 700px at 90% 10%, #4a176e44 0%, transparent 55%),
-    linear-gradient(180deg, var(--bg2), var(--bg));
-}
-a{color:var(--accent);text-decoration:none}
-img,video{display:block;max-width:100%}
+html,body{margin:0;padding:0;background:radial-gradient(1200px 600px at 20% -10%,#151a41 0%,transparent 60%),var(--bg);
+          color:var(--text);font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Inter,Arial}
+a{color:inherit;text-decoration:none}
+.container{max-width:980px;margin:0 auto;padding:20px}
+.site-header{position:sticky;top:0;background:linear-gradient(180deg,rgba(10,12,27,.9),rgba(10,12,27,.6));backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid rgba(255,255,255,.06)}
+.brand{font-weight:800;font-size:20px;display:inline-flex;gap:8px;align-items:center}
+.site-footer{opacity:.7;border-top:1px solid rgba(255,255,255,.06);margin-top:32px}
+.title{font-size:28px;letter-spacing:.4px;margin:0 0 10px;font-weight:800}
+.subtitle{color:var(--muted);margin:0 0 24px}
+.hero{margin:8px 0 14px}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.video-card{display:flex;flex-direction:column;background:linear-gradient(180deg,#13183a,#0e1433);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 10px 22px rgba(0,0,0,.25);transition:.2s transform}
+.video-card:hover{transform:translateY(-2px)}
+.thumb{aspect-ratio:16/9;background:#0b0f24;display:flex;align-items:center;justify-content:center}
+.thumb video{width:100%;height:100%;object-fit:cover;opacity:.95;border-bottom:1px solid rgba(255,255,255,.06)}
+.meta{padding:14px 14px 16px}
+.meta h3{margin:4px 0 6px;font-size:18px}
+.meta p{margin:0;color:var(--muted);font-size:14px}
+.empty{padding:24px;border:1px dashed var(--border);border-radius:14px;color:var(--muted);text-align:center;background:rgba(255,255,255,.02)}
 
-.container{max-width:1024px;margin:0 auto;padding:28px}
-.hero{margin:6px 0 22px}
-.title{font-size:42px;font-weight:800;letter-spacing:.3px;margin:0 0 6px}
-.title span{
-  background:linear-gradient(90deg,var(--brand1),var(--brand2));
-  -webkit-background-clip:text;background-clip:text;color:transparent
-}
-.subtitle{color:var(--muted);font-size:18px;margin:0}
+.player-card{background:linear-gradient(180deg,#13183a,#0e1433);border:1px solid var(--border);border-radius:22px;padding:16px}
+.glow{box-shadow:0 14px 40px rgba(60,100,255,.18),inset 0 0 0 1px rgba(255,255,255,.02)}
+.player{border-radius:16px;overflow:hidden;margin:10px 0 14px}
+.player video{width:100%;height:auto;display:block;background:#000}
+.ad-slot{border:1px dashed var(--border);border-radius:12px;padding:10px 12px;margin-bottom:12px;color:var(--muted);text-align:center}
 
-/* Buttons */
-.btn{
-  display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;cursor:pointer;
-  font-weight:800
-}
-.btn.small{padding:6px 10px;font-size:13px}
-.btn.danger{background:linear-gradient(90deg,#ff6f86,#ff4d6d);color:#fff;padding:10px 14px;border-radius:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.12);cursor:pointer;font-weight:700}
+.btn-primary{background:linear-gradient(90deg,var(--grad1),var(--grad2));border:none;color:#fff}
+.btn-outline{background:transparent;border-color:var(--border);color:#e6ebff}
+.btn-ghost{background:rgba(255,255,255,.06)}
+.btn-danger{background:#2a0f16;border-color:#862d3a;color:#ffb8c0}
+.muted{color:var(--muted)}
+.row-actions{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:0 14px 14px}
 
-.btn-primary{
-  background:linear-gradient(90deg,#19e7ff,#64ffd5);
-  color:#041; padding:12px 18px; width:100%; justify-content:center; font-size:16px; border-radius:14px;
-}
-.btn-outline{background:#121a36;border:1px solid #2b356b;color:#bcd1ff;padding:10px 14px;border-radius:12px}
-.btn-ghost{background:#1a2140;border:1px solid #2b356b;color:#bcd1ff;padding:10px 14px;border-radius:12px}
+.form.grid{display:grid;gap:12px}
+.input{width:100%;padding:10px 12px;background:#0f1530;border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px}
+.file-input{display:none} /* hide input file asli; pakai label tombol custom */
 
-/* Grid Cards */
-.video-grid{
-  display:grid; gap:20px;
-  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+/* ======== SEMBUNYIKAN ELEMEN UPLOAD DI HALAMAN PUBLIK ======== */
+.page-home input[type="file"],
+.page-home .file-input,
+.page-home form[action*="/admin"],
+.page-home label[for="video"],
+.page-home .btn.btn-primary[type="submit"],
+.page-home .admin-only,
+.page-home .upload,
+.page-home .form {
+  display: none !important;
 }
-.video-card{
-  background:linear-gradient(180deg,rgba(124,74,255,.06),rgba(0,0,0,.12));
-  border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;
-  box-shadow:var(--shadow); color:var(--ink); text-decoration:none;
-  transition:transform .18s ease, box-shadow .18s ease;
-  position:relative; isolation:isolate;
-}
-.video-card::after{
-  content:""; position:absolute; inset:-1px; border-radius:inherit; z-index:-1;
-  background:linear-gradient(120deg,var(--brand1),transparent 30%, var(--brand2));
-  filter:blur(18px); opacity:.32;
-}
-.video-card:hover{transform:translateY(-3px)}
-.video-card .thumb{background:#000; aspect-ratio:16/9}
-.video-card .thumb video{width:100%;height:100%;object-fit:cover}
-.video-card .meta{padding:14px}
-.video-card .meta h3{margin:0 0 6px; font-size:18px; font-weight:800}
-.video-card .meta p{margin:0; color:var(--muted); font-size:14px}
-.empty{opacity:.9;margin-top:8px}
-
-/* Watch page / Player */
-.back{display:inline-block;margin-bottom:12px;color:var(--muted)}
-.player-card{
-  background:linear-gradient(180deg,#0f1530,#0a0f1f);
-  border:1px solid var(--line); border-radius:calc(var(--radius) + 6px);
-  padding:16px; margin:14px 0; box-shadow:var(--shadow); position:relative;
-}
-.player-card.glow{box-shadow:0 0 0 2px rgba(146,106,255,.25),0 0 60px rgba(119,64,255,.18)}
-.player{width:100%;border-radius:12px;background:#000;aspect-ratio:16/9}
-
-.ads-top{margin:8px 0 12px}
-.ads-bottom{
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:16px; margin-top:14px
-}
-.ad-card{
-  border:1px dashed #344; border-radius:16px; min-height:130px;
-  background:linear-gradient(180deg,rgba(45,60,120,.28),rgba(0,0,0,.24));
-  display:flex;align-items:center;justify-content:center;position:relative
-}
-.ad-label{position:absolute;top:10px;left:12px;font-size:12px;color:#9fb0ff;opacity:.9}
-.ad-placeholder{
-  display:inline-block;padding:12px 14px;border-radius:10px;
-  background:#13204a;color:#9bd;outline:1px solid #29427f
-}
-
-/* CTA / Actions clean */
-.cta-card{
-  background:linear-gradient(180deg,#0f1530,#0a0f1f);
-  border:1px solid var(--line);
-  border-radius:20px; padding:16px; margin:14px 0; box-shadow:var(--shadow);
-}
-.actions{display:grid; grid-template-columns:1fr auto auto; gap:10px; margin-top:12px}
-@media (max-width:640px){ .actions{grid-template-columns:1fr} }
-.share-input{
-  width:100%; min-width:220px;
-  background:#0f1530; border:1px solid #233059; border-radius:12px;
-  color:#e9edff; padding:10px 12px; font-size:14px
-}
-.note{color:var(--muted);font-size:14px}
-
-/* Admin list rows */
-.admin-list{display:grid;gap:12px}
-.admin-row{
-  display:grid; grid-template-columns:1.2fr 1fr auto; gap:12px;
-  background:linear-gradient(180deg,rgba(124,74,255,.06),rgba(0,0,0,.1));
-  border:1px solid var(--line); border-radius:16px; padding:12px
-}
-@media (max-width:900px){ .admin-row{grid-template-columns:1fr} }
-.row-main{display:grid;gap:4px}
-.row-title{font-weight:800}
-.row-sub{color:var(--muted);font-size:13px}
-.row-share{display:flex;gap:8px;align-items:center}
-.row-actions{display:flex;gap:8px;align-items:center;justify-content:flex-end}
-
-/* Mobile tweak */
-@media (max-width:520px){ .title{font-size:34px} }
-/* form grid di admin */
-.form.grid { display: grid; gap: 12px; }
-.input{
-  width:100%;padding:10px 12px;background:#0f1530;border:1px solid #2b356b;
-  border-radius:12px;color:#e9eeff;font-size:14px
-}
-/* sembunyikan input file asli (biar gak muncul “Pilih File 1000xxx.mp4”) */
-.file-input { display: none; }
