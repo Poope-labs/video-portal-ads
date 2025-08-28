@@ -1,39 +1,42 @@
 <section class="admin-wrap">
   <h1 class="title">Admin — Upload Trailer</h1>
 
-  <!-- kirim key lewat query & hidden input -->
-  <form class="form" action="/admin/upload?key=<%= adminKey %>" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="key" value="<%= adminKey %>"/>
-    <input name="title" type="text" placeholder="Judul trailer" required />
-    <textarea name="description" rows="3" placeholder="Deskripsi singkat"></textarea>
-    <input name="fullUrl" type="url" placeholder="Link nonton FULL (Telegram / Bot) — opsional" />
-    <input name="video" type="file" accept="video/mp4,video/webm,video/ogg" required/>
-    <button class="btn">Upload</button>
-  </form>
+  <div class="player-card glow" style="margin-bottom:20px">
+    <form class="form grid" action="/admin/upload?key=<%= adminKey %>" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="key" value="<%= adminKey %>">
+
+      <input class="input" name="title" type="text" placeholder="Judul trailer" required>
+      <textarea class="input" name="description" rows="3" placeholder="Deskripsi singkat"></textarea>
+      <input class="input" name="fullUrl" type="url" placeholder="Link nonton FULL (Telegram/Bot) — opsional">
+
+      <!-- input file disembunyikan, pakai tombol custom -->
+      <label for="video" class="btn btn-outline" style="justify-self:flex-start">Pilih Trailer</label>
+      <input id="video" class="file-input" name="video" type="file" accept="video/mp4,video/webm,video/ogg" required>
+
+      <button class="btn btn-primary" type="submit">⬆️ Upload</button>
+    </form>
+  </div>
 
   <h2 class="title" style="font-size:22px;margin-top:10px">Daftar Trailer</h2>
 
-  <div class="admin-list">
-    <% videos.forEach(v => { const share = `${site.baseUrl}/watch/${v.slug}`; %>
-      <div class="admin-row">
-        <div class="row-main">
-          <div class="row-title"><%= v.title %></div>
-          <div class="row-sub"><%= new Date(v.createdAt).toLocaleString() %></div>
-          <% if (v.fullUrl) { %>
-            <div class="row-sub">Full: <a href="<%= v.fullUrl %>" target="_blank" rel="noopener nofollow">buka</a></div>
-          <% } %>
-        </div>
+  <div class="video-grid">
+    <% if (!videos || videos.length === 0) { %>
+      <div class="empty">Belum ada video.</div>
+    <% } %>
 
-        <div class="row-share">
-          <input class="share-input" type="text" value="<%= share %>" readonly />
-          <button class="btn btn-outline" type="button"
-                  onclick="navigator.clipboard.writeText('<%= share %>')">Copy</button>
+    <% (videos || []).forEach(v => { %>
+      <div class="video-card">
+        <div class="thumb">
+          <video src="<%= v.url %>#t=0.1" muted playsinline></video>
         </div>
-
+        <div class="meta">
+          <h3><%= v.title %></h3>
+          <p><%= v.description || "Tonton sekarang" %></p>
+        </div>
         <div class="row-actions">
-          <a class="btn btn-ghost" href="/watch/<%= v.slug %>?key=<%= adminKey %>" target="_blank">Lihat</a>
+          <a class="btn btn-ghost" href="/watch/<%= v.slug %>?admin=1" target="_blank">Lihat</a>
           <form method="post" action="/admin/delete/<%= v.slug %>?key=<%= adminKey %>" onsubmit="return confirm('Hapus video ini?')">
-            <input type="hidden" name="key" value="<%= adminKey %>"/>
+            <input type="hidden" name="key" value="<%= adminKey %>">
             <button class="btn btn-danger" type="submit">Hapus</button>
           </form>
         </div>
