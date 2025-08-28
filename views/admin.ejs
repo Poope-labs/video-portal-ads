@@ -7,15 +7,19 @@
     <button class="btn">Upload</button>
   </form>
 
-  <h2>Daftar Video</h2>
-  <ul>
+  <h2 class="title" style="font-size:22px;margin-top:10px">Daftar Video</h2>
+  <div class="video-grid">
     <% videos.forEach(v => { %>
-      <li>
-        <a href="/watch/<%= v.slug %>"><%= v.title %></a>
-        <form method="post" action="/admin/delete/<%= v.slug %>" style="display:inline">
-          <button type="submit">Hapus</button>
-        </form>
-      </li>
+      <div class="video-card">
+        <div class="meta" style="padding:14px">
+          <h3><%= v.title %></h3>
+          <p class="subtitle" style="margin:6px 0"><%= new Date(v.createdAt).toLocaleString() %></p>
+          <a class="btn small" href="/watch/<%= v.slug %>">Lihat</a>
+          <form method="post" action="/admin/delete/<%= v.slug %>" class="inline" style="display:inline-block;margin-left:8px">
+            <button class="btn danger small" type="submit" onclick="return confirm('Hapus video ini?')">Hapus</button>
+          </form>
+        </div>
+      </div>
     <% }) %>
-  </ul>
+  </div>
 </section>
