@@ -3,19 +3,20 @@
   <p class="subtitle">Trailer video + tonton full lewat Telegram</p>
 </section>
 
-<section class="video-grid">
+<!-- LIST KECIL, RAPIH, TIDAK PANJANG -->
+<section class="video-list-narrow">
   <% if (!videos || videos.length === 0) { %>
     <div class="empty">Belum ada video.</div>
   <% } %>
 
   <% (videos || []).forEach(v => { %>
-    <a class="video-card" href="/watch/<%= v.slug %>">
-      <div class="thumb">
+    <a class="video-item" href="/watch/<%= v.slug %>">
+      <div class="thumb-small">
         <video src="<%= v.url %>#t=0.1" muted playsinline></video>
       </div>
-      <div class="meta">
-        <h3><%= v.title %></h3>
-        <p><%= v.description || "Tonton sekarang" %></p>
+      <div class="item-meta">
+        <h3 class="item-title"><%= v.title %></h3>
+        <p class="item-desc"><%= v.description || "Tonton sekarang" %></p>
       </div>
     </a>
   <% }) %>
