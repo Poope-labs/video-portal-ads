@@ -90,3 +90,42 @@ a{color:inherit;text-decoration:none}
 @media (min-width:720px){
   .watch-wrap{max-width:420px;} /* sedikit lebih lebar di tablet */
 }
+/* ===== HOME LIST KECIL (sama nuansa dengan watch) ===== */
+.video-list-narrow{
+  display:flex; flex-direction:column; align-items:center;
+  gap:14px; margin-top:6px;
+}
+.video-item{
+  width:100%; max-width:360px;    /* ukuran kecil seperti watch */
+  background:linear-gradient(180deg,#13183a,#0e1433);
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 12px 28px rgba(0,0,0,.28);
+  transition:transform .15s ease;
+}
+.video-item:hover{ transform: translateY(-2px); }
+
+.thumb-small{
+  width:100%;
+  aspect-ratio:16/9;             /* kunci tinggi, tidak memanjang */
+  background:#000;
+  overflow:hidden;
+}
+.thumb-small video{
+  width:100%; height:100%;
+  object-fit:contain;            /* letterbox kalau video portrait */
+  display:block; background:#000;
+}
+
+.item-meta{ padding:12px 12px 14px; }
+.item-title{ margin:0 0 4px; font-size:16px; font-weight:800; }
+.item-desc{ margin:0; color:var(--muted); font-size:13.5px; }
+
+/* opsional: biar di layar lebar tetap kecil, bisa 2 kolom rapi */
+@media (min-width:900px){
+  .video-list-narrow{
+    display:grid; grid-template-columns: repeat(2, 1fr);
+    justify-items:center;
+  }
+}
