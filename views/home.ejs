@@ -1,23 +1,17 @@
 <section class="hero">
   <h1 class="title">🎬 <span>Video Portal</span></h1>
   <p class="subtitle">Trailer video + tonton full lewat Telegram</p>
-
-  <% if (isAdmin) { %>
-    <div style="margin-top:10px">
-      <a class="btn btn-outline" href="/admin?key=<%= adminKey %>">Masuk Admin</a>
-    </div>
-  <% } %>
 </section>
 
 <section class="video-grid">
-  <% if (videos.length === 0) { %>
+  <% if (!videos || videos.length === 0) { %>
     <div class="empty">Belum ada video.</div>
   <% } %>
 
-  <% videos.forEach(v => { %>
+  <% (videos || []).forEach(v => { %>
     <a class="video-card" href="/watch/<%= v.slug %>">
       <div class="thumb">
-        <video src="<%= v.url %>#t=0.1" muted></video>
+        <video src="<%= v.url %>#t=0.1" muted playsinline></video>
       </div>
       <div class="meta">
         <h3><%= v.title %></h3>
