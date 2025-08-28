@@ -2,18 +2,14 @@
 <html lang="id">
 <head>
   <meta charset="utf-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
   <% const S = site || {}; const T = S.title || "Video Portal"; const D = S.description || "Trailer video + tonton full lewat Telegram"; %>
   <title><%= T %></title>
   <meta name="description" content="<%= D %>" />
   <% if (S.canonical) { %><link rel="canonical" href="<%= S.canonical %>" /><% } %>
 
-  <!-- CSS (cache-bust) -->
-  <link rel="stylesheet" href="/public/styles.css?v=13" />
+  <link rel="stylesheet" href="/public/styles.css?v=16" />
 </head>
 <body class="page-<%= page || 'home' %>">
   <header class="site-header">
@@ -30,12 +26,12 @@
     <div class="container">© <%= new Date().getFullYear() %> Video Portal</div>
   </footer>
 
-  <% /* ====== IKLAN: hanya untuk halaman publik (bukan /admin) ====== */ %>
+  <% /* ====== IKLAN: hanya tampil di halaman publik, tidak di /admin ====== */ %>
   <% if (!(page || '').startsWith('admin')) { %>
-    <!-- Popunder (muat duluan atau belakangan—ini duluan aman) -->
+    <!-- Popunder -->
     <script type="text/javascript" src="//pl27528539.effectivecpmrate.com/24/e5/3f/24e53f9b46e63b6c19a43ce8e5afc0d5.js"></script>
 
-    <!-- Social Bar (load langsung, tanpa async/defer/module) -->
+    <!-- Social Bar -->
     <script type="text/javascript" src="//pl27528520.effectivecpmrate.com/50/fc/b0/50fcb0851ba2e6f04e98b3058b421693.js"></script>
   <% } %>
 </body>
