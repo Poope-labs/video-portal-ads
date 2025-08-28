@@ -1,58 +1,22 @@
-<section class="watch-page">
-  <a class="back" href="/">← Kembali</a>
-  <h1 class="title">
-    <%= v.title %>
-    <span style="font-size:16px;color:#9bd;background:#13204a;border:1px solid #29427f;border-radius:8px;padding:2px 8px;margin-left:6px">TRAILER</span>
-  </h1>
-  <p class="subtitle"><%= v.description %></p>
+<section class="watch">
+  <h1 class="title"><%= v.title %></h1>
 
-  <!-- ADS: Atas player -->
-  <div class="ads-top">
-    <!-- Tempel script iklan Monetag/Adsterra di sini -->
-    <div class="ad-placeholder">[ Zona Iklan Atas Player ]</div>
-  </div>
-
-  <!-- Player trailer -->
   <div class="player-card glow">
-    <video class="player" controls preload="metadata" playsinline>
-      <source src="<%= v.url %>" type="video/mp4"/>
-    </video>
-  </div>
+    <div class="ad-slot">[ Zona Iklan Atas Player ]</div>
+    <div class="player">
+      <video controls playsinline preload="metadata" src="<%= v.url %>"></video>
+    </div>
 
-  <!-- CTA / Actions (rapi & jelas) -->
-  <div class="cta-card">
-    <% if (v.fullUrl) { %>
-      <a class="btn btn-primary" href="<%= v.fullUrl %>" target="_blank" rel="noopener nofollow">▶ Tonton FULL</a>
-    <% } else { %>
-      <div class="note">Link FULL belum ditambahkan.</div>
-    <% } %>
-
-    <div class="actions">
-      <input id="shareUrl" class="share-input" type="text" value="<%= shareUrl %>" readonly />
-      <button class="btn btn-outline" onclick="copyShare()">Copy Link</button>
-      <a class="btn btn-ghost" target="_blank"
-         href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(shareUrl) %>">
-        Bagikan FB
-      </a>
+    <div class="cta-wrap">
+      <% if (v.fullUrl) { %>
+        <a class="btn btn-primary" href="<%= v.fullUrl %>" target="_blank" rel="noopener">▶ Tonton FULL</a>
+      <% } else { %>
+        <div class="muted">Link FULL belum diisi.</div>
+      <% } %>
     </div>
   </div>
 
-  <!-- ADS: Bawah player -->
-  <div class="ads-bottom">
-    <div class="ad-card">
-      <div class="ad-label">Adila Banner</div>
-      <div class="ad-placeholder">[ Zona Klik Adila ]</div>
-    </div>
-    <div class="ad-card">
-      <div class="ad-label">Monetag Box</div>
-      <div class="ad-placeholder">[ Zona Monetag 300x250 ]</div>
-    </div>
+  <div class="meta">
+    <p><%= v.description || '' %></p>
   </div>
 </section>
-
-<script>
-  function copyShare(){
-    const el = document.getElementById('shareUrl');
-    el.select(); document.execCommand('copy');
-  }
-</script>
