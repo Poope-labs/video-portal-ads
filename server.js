@@ -1,3 +1,5 @@
+// server.js  — versi rapi (ESM)
+
 import express from "express";
 import path from "path";
 import fs from "fs-extra";
@@ -6,71 +8,84 @@ import slugify from "slugify";
 import mime from "mime-types";
 import dotenv from "dotenv";
 import os from "os";
+import helmet from "helmet";
 import expressLayouts from "express-ejs-layouts";
 import { createClient } from "@supabase/supabase-js";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
+// ===== App & Env =====
 const app = express();
 const PORT = process.env.PORT || 3000;
 const BASE_URL = (process.env.BASE_URL || "").replace(/\/+$/, "");
 const ADMIN_KEY = process.env.ADMIN_KEY || "";
 
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_KEY; // **pakai Service Role di Railway**
+const SUPABASE_URL = process.env.SUPABASE_URL || "";
+const SUPABASE_KEY = process.env.SUPABASE_KEY || ""; // pakai Service Role di Railway
 const SUPABASE_BUCKET = process.env.SUPABASE_BUCKET || "videos";
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+  console.error("❌ SUPABASE_URL / SUPABASE_KEY belum di-set!");
+}
 
+// ESM __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Supabase
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-// Pastikan static folder /public diserve
-const path = require('path');
-app.use('/public', express.static(path.join(__dirname, 'public')));
 
-// Kalau pakai helmet, matikan CSP
-const helmet = require('helmet');
-app.use(helmet({ contentSecurityPolicy: false }));
+// ===== Security & Parsers =====
+app.use(
+  helmet({
+    contentSecurityPolicy: false, // penting buat script iklan pihak-3
+  })
+);
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-// Views + static
-const __dirname = path.resolve();
+// ===== Views & Static =====
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(expressLayouts);
 app.set("layout", "layout");
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+// serve /public (cukup sekali)
 app.use("/public", express.static(path.join(__dirname, "public")));
 
-// baseUrl helper untuk views
+// baseUrl helper utk views
 app.use((req, res, next) => {
   res.locals.site = res.locals.site || {};
   res.locals.site.baseUrl = BASE_URL || `${req.protocol}://${req.get("host")}`;
   next();
 });
 
-// Upload ke /tmp
+// ===== Multer (upload ke /tmp) =====
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, os.tmpdir()),
   filename: (req, file, cb) => {
     const ext = mime.extension(file.mimetype) || "mp4";
     cb(null, `${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${ext}`);
-  }
+  },
 });
 const upload = multer({
   storage,
   limits: { fileSize: 1024 * 1024 * 300 }, // 300MB
   fileFilter: (req, file, cb) => {
     const ok = ["video/mp4", "video/webm", "video/ogg"].includes(file.mimetype);
-    cb(ok ? null : new Error("Format video harus mp4/webm/ogg"), ok);
-  }
+    if (ok) cb(null, true);
+    else cb(new Error("Format video harus mp4/webm/ogg"));
+  },
 });
 
 // ===== Helpers DB =====
 async function readVideos() {
-  // coba order by createdAt lebih dulu
+  // coba order by createdAt dulu
   let { data, error } = await supabase
     .from("videos")
     .select("*")
     .order("createdAt", { ascending: false });
+
   if (!error && data) return data;
 
   // fallback ke id kalau kolom createdAt belum ada
@@ -78,12 +93,14 @@ async function readVideos() {
     .from("videos")
     .select("*")
     .order("id", { ascending: false }));
+
   if (error) {
     console.error("readVideos error:", error);
     return [];
   }
   return data || [];
 }
+
 async function getVideoBySlug(slug) {
   const { data, error } = await supabase
     .from("videos")
@@ -97,10 +114,12 @@ async function getVideoBySlug(slug) {
   }
   return data;
 }
+
 async function insertVideo(row) {
   const { error } = await supabase.from("videos").insert([row]);
   if (error) throw error;
 }
+
 async function deleteVideoBySlug(slug) {
   const { data, error } = await supabase
     .from("videos")
@@ -121,7 +140,7 @@ function checkAdmin(req, res, next) {
 
 // ===== Routes =====
 
-// HOME (publik) — daftar trailer (tanpa form apa pun)
+// HOME — publik (tanpa form upload)
 app.get("/", async (req, res) => {
   const videos = await readVideos();
   res.render("home", {
@@ -137,30 +156,36 @@ app.get("/", async (req, res) => {
       og: {
         title: "Video Portal",
         description: "Trailer video + tonton full lewat Telegram",
-        url: `${res.locals.site.baseUrl}/`
-      }
-    }
+        url: `${res.locals.site.baseUrl}/`,
+      },
+    },
   });
 });
+
+// WATCH
 app.get("/watch/:slug", async (req, res) => {
   const v = await getVideoBySlug(req.params.slug);
   if (!v) return res.status(404).send("Video tidak ditemukan");
-  const shareUrl  = `${res.locals.site.baseUrl}/watch/${v.slug}`;
+  const shareUrl = `${res.locals.site.baseUrl}/watch/${v.slug}`;
   const showShare = req.query.admin === "1";
+
   res.render("watch", {
     page: "watch",
-    v, shareUrl, showShare,
+    v,
+    shareUrl,
+    showShare,
     isAdmin: false,
     site: {
       title: v.title,
       description: v.description || "Tonton trailer, klik tombol untuk full video.",
       canonical: shareUrl,
       baseUrl: res.locals.site.baseUrl,
-      og: { title: v.title, description: v.description || "", url: shareUrl }
-    }
+      og: { title: v.title, description: v.description || "", url: shareUrl },
+    },
   });
 });
-// ADMIN (hanya dengan key)
+
+// ADMIN — upload/list/hapus (butuh key)
 app.get("/admin", checkAdmin, async (req, res) => {
   const videos = await readVideos();
   res.render("admin", {
@@ -170,8 +195,8 @@ app.get("/admin", checkAdmin, async (req, res) => {
     site: {
       title: "Admin • Upload",
       canonical: `${res.locals.site.baseUrl}/admin`,
-      baseUrl: res.locals.site.baseUrl
-    }
+      baseUrl: res.locals.site.baseUrl,
+    },
   });
 });
 
@@ -196,21 +221,17 @@ app.post("/admin/upload", checkAdmin, upload.single("video"), async (req, res) =
     const filePath = `trailers/${Date.now()}_${slug}.${ext}`;
     const fileBuffer = await fs.readFile(req.file.path);
 
-    const { error: upErr } = await supabase
-      .storage
+    const { error: upErr } = await supabase.storage
       .from(SUPABASE_BUCKET)
       .upload(filePath, fileBuffer, {
         contentType: req.file.mimetype,
-        upsert: true
+        upsert: true,
       });
     if (upErr) throw upErr;
 
     // URL publik
-    const { data: pub } = supabase
-      .storage
-      .from(SUPABASE_BUCKET)
-      .getPublicUrl(filePath);
-    const publicUrl = pub.publicUrl;
+    const { data: pub } = supabase.storage.from(SUPABASE_BUCKET).getPublicUrl(filePath);
+    const publicUrl = pub?.publicUrl || "";
 
     // simpan metadata
     await insertVideo({
@@ -219,10 +240,12 @@ app.post("/admin/upload", checkAdmin, upload.single("video"), async (req, res) =
       description: (description || "").trim(),
       file_path: filePath,
       url: publicUrl,
-      fullUrl: (fullUrl || "").trim()
+      fullUrl: (fullUrl || "").trim(),
     });
 
+    // bersihkan file tmp
     fs.remove(req.file.path).catch(() => {});
+
     const key = encodeURIComponent(req.query.key || req.body.key || "");
     res.redirect(`/admin?key=${key}`);
   } catch (err) {
@@ -246,6 +269,7 @@ app.post("/admin/delete/:slug", checkAdmin, async (req, res) => {
   }
 });
 
+// Start
 app.listen(PORT, () => {
-  console.log(`Server jalan di http://localhost:${PORT}`);
+  console.log(`✅ Server jalan di http://localhost:${PORT}`);
 });
