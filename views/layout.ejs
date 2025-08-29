@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8" />
+  <meta http-equiv="x-dns-prefetch-control" content="on" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
   <% const S = site || {}; const T = S.title || "Video Portal"; const D = S.description || "Trailer video + tonton full lewat Telegram"; %>
@@ -9,20 +10,23 @@
   <meta name="description" content="<%= D %>" />
   <% if (S.canonical) { %><link rel="canonical" href="<%= S.canonical %>" /><% } %>
 
-  <link rel="stylesheet" href="/public/styles.css?v=16" />
-
-  <!-- ====== SPEED UP ADS: DNS Prefetch + Preconnect ====== -->
+  <!-- ====== SPEED UP ADS: DNS Prefetch + Preconnect (letakkan sedini mungkin) ====== -->
   <!-- Adsterra banner 300x250 -->
   <link rel="dns-prefetch" href="//www.highperformanceformat.com">
   <link rel="preconnect" href="https://www.highperformanceformat.com" crossorigin>
 
-  <!-- Popunder & Social Bar (effectivecpmrate) -->
+  <!-- effectivecpmrate (Popunder & Social Bar) -->
   <link rel="dns-prefetch" href="//pl27528539.effectivecpmrate.com">
   <link rel="preconnect" href="https://pl27528539.effectivecpmrate.com" crossorigin>
   <link rel="dns-prefetch" href="//pl27528520.effectivecpmrate.com">
   <link rel="preconnect" href="https://pl27528520.effectivecpmrate.com" crossorigin>
+
+  <!-- Monetag In-Page (non-adblock) -->
   <link rel="dns-prefetch" href="//vemtoutcheeg.com">
   <link rel="preconnect" href="https://vemtoutcheeg.com" crossorigin>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/public/styles.css?v=16" />
 </head>
 <body class="page-<%= page || 'home' %>">
   <header class="site-header">
