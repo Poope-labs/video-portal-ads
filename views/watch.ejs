@@ -6,58 +6,46 @@
     <span class="badge-trailer" style="font-size:13px;font-weight:900;letter-spacing:.6px;padding:6px 10px;border-radius:12px;border:1px solid #2b356b;background:rgba(98,120,255,.12)">TRAILER</span>
   </h1>
 
+  <!-- === Adsterra 300x250 (ATAS PLAYER) === -->
   <div class="ad-slot-top" style="border:1px solid #2b356b;border-radius:12px;padding:10px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03);margin:8px 0 12px">
-    [ Zona Iklan Atas Player ]
+    <div style="width:300px;height:250px;margin:0 auto">
+      <script data-cfasync="false" type="text/javascript">
+        atOptions = {
+          'key' : 'c170db92dbe69cba15f5fe00f341cc59',
+          'format' : 'iframe',
+          'height' : 250,
+          'width' : 300,
+          'params' : {}
+        };
+      </script>
+      <script data-cfasync="false" type="text/javascript" src="//www.highperformanceformat.com/c170db92dbe69cba15f5fe00f341cc59/invoke.js"></script>
+    </div>
   </div>
 
-  <!-- PLAYER KECIL + PAKU RASIO 16:9 (tidak memanjang meski video portrait) -->
+  <!-- PLAYER -->
   <div class="player-shell"
-       style="
-         width:100%;max-width:360px; /* <= ubah ke 340/380 kalau mau */
-         aspect-ratio:16/9;         /* KUNCI TINGGI */
-         margin:0 auto 12px;border-radius:16px;overflow:hidden;
-         box-shadow:0 0 24px rgba(0,0,0,.35);background:#000;
-       ">
-    <video
-      controls playsinline preload="metadata" src="<%= v.url %>"
-      style="
-        width:100%;height:100%;
-        background:#000;display:block;border-radius:16px;
-      ">
-    </video>
+       style="width:100%;max-width:360px;aspect-ratio:16/9;margin:0 auto 12px;border-radius:16px;overflow:hidden;box-shadow:0 0 24px rgba(0,0,0,.35);background:#000;">
+    <video controls playsinline preload="metadata" src="<%= v.url %>" style="width:100%;height:100%;background:#000;display:block;border-radius:16px;"></video>
   </div>
 
   <% if (v.fullUrl) { %>
     <div class="cta-wrap" style="display:flex;justify-content:center;margin:6px 0 8px">
       <a class="btn btn-primary"
-         style="display:inline-flex;gap:8px;align-items:center;justify-content:center;padding:12px 16px;border-radius:12px;border:none;
-                background:linear-gradient(90deg,#3a8ef6,#6f3afa);color:#fff;font-weight:700"
+         style="display:inline-flex;gap:8px;align-items:center;justify-content:center;padding:12px 16px;border-radius:12px;border:none;background:linear-gradient(90deg,#3a8ef6,#6f3afa);color:#fff;font-weight:700"
          href="<%= v.fullUrl %>" target="_blank" rel="noopener">▶ Tonton FULL</a>
     </div>
   <% } %>
 
-  <% if (typeof showShare !== "undefined" && showShare) { %>
-    <% const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(v.url)}` %>
-    <div style="max-width:360px;margin:10px auto 4px;border:1px solid #2b356b;border-radius:12px;padding:12px;color:#e6ebff;background:rgba(255,255,255,.02)">
-      <div style="font-weight:800;margin-bottom:8px">Bagikan</div>
-      <div style="margin-top:8px;display:flex;gap:8px">
-        <a target="_blank" rel="noopener"
-           href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(shareUrl) %>"
-           style="padding:10px 14px;border-radius:10px;border:1px solid #2b356b;background:transparent;color:#e6ebff;font-weight:700">
-           Bagikan FB
-        </a>
-      </div>
-    </div>
-  <% } %>
-
   <div class="ad-banner" style="max-width:680px;margin:16px auto 0;display:flex;flex-direction:column;gap:14px">
-    <div class="ad-box" style="border:1px dashed #2b356b;border-radius:12px;padding:10px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03)">Adila Banner<br>[ Zona Klik Adila ]</div>
-
-    <!-- Slot ini sebelumnya "Monetag 300×250". Sudah diganti ke Adsterra 300×250. -->
+    <!-- Slot klik Adila (tetap) -->
     <div class="ad-box" style="border:1px dashed #2b356b;border-radius:12px;padding:10px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03)">
-      <!-- Adsterra Banner 300x250 -->
-      <div style="width:300px;height:250px;margin:0 auto;display:block">
-        <script type="text/javascript">
+      Adila Banner<br>[ Zona Klik Adila ]
+    </div>
+
+    <!-- === Adsterra 300x250 (BAWAH PLAYER) === -->
+    <div class="ad-box" style="border:1px dashed #2b356b;border-radius:12px;padding:10px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03)">
+      <div style="width:300px;height:250px;margin:0 auto">
+        <script data-cfasync="false" type="text/javascript">
           atOptions = {
             'key' : 'c170db92dbe69cba15f5fe00f341cc59',
             'format' : 'iframe',
@@ -66,7 +54,7 @@
             'params' : {}
           };
         </script>
-        <script type="text/javascript" src="//www.highperformanceformat.com/c170db92dbe69cba15f5fe00f341cc59/invoke.js"></script>
+        <script data-cfasync="false" type="text/javascript" src="//www.highperformanceformat.com/c170db92dbe69cba15f5fe00f341cc59/invoke.js"></script>
       </div>
     </div>
   </div>
