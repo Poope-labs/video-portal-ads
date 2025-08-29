@@ -5,7 +5,7 @@
   <meta http-equiv="x-dns-prefetch-control" content="on" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-  <% const S = site || {}; const T = S.title || "Video Portal"; const D = S.description || "Trailer video + tonton full lewat Telegram"; %>
+  <% const S = site || {}; const T = S.title || "Short Movies"; const D = S.description || "Movies video + tonton full lewat Telegram"; %>
   <title><%= T %></title>
   <meta name="description" content="<%= D %>" />
   <% if (S.canonical) { %><link rel="canonical" href="<%= S.canonical %>" /><% } %>
@@ -27,7 +27,7 @@
 <body class="page-<%= page || 'home' %>">
   <header class="site-header">
     <div class="container">
-      <a class="brand" href="/">🎬 <span>Video Portal</span></a>
+      <a class="brand" href="/">🎬 <span>Short Movies</span></a>
     </div>
   </header>
 
@@ -36,7 +36,7 @@
   </main>
 
   <footer class="site-footer">
-    <div class="container">© <%= new Date().getFullYear() %> Video Portal</div>
+    <div class="container">© <%= new Date().getFullYear() %> Short Movies</div>
   </footer>
 
   <% if (!(page || '').startsWith('admin')) { %>
