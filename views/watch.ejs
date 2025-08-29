@@ -10,13 +10,7 @@
   <div class="ad-slot-top" style="border:1px solid #2b356b;border-radius:12px;padding:10px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03);margin:8px 0 12px">
     <div style="width:300px;height:250px;margin:0 auto">
       <script data-cfasync="false" type="text/javascript">
-        atOptions = {
-          'key' : 'c170db92dbe69cba15f5fe00f341cc59',
-          'format' : 'iframe',
-          'height' : 250,
-          'width' : 300,
-          'params' : {}
-        };
+        atOptions = { key: 'c170db92dbe69cba15f5fe00f341cc59', format:'iframe', height:250, width:300, params:{} };
       </script>
       <script data-cfasync="false" type="text/javascript" src="//www.highperformanceformat.com/c170db92dbe69cba15f5fe00f341cc59/invoke.js"></script>
     </div>
@@ -39,13 +33,54 @@
   <!-- === BAWAH PLAYER === -->
   <div class="ad-banner" style="max-width:680px;margin:16px auto 0;display:flex;flex-direction:column;gap:14px">
 
-    <!-- Monetag In-Page (non-adblock) — in-place, 300×250 -->
+    <!-- Monetag In-Page (non-adblock) — 3 tahap: tag.min.js → SDK → image -->
     <div class="ad-box" style="border:1px dashed #2b356b;border-radius:12px;padding:10px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03)">
-      <div id="monetag-inpage" style="width:300px;height:250px;margin:0 auto">
-        <!-- Taruh tag tepat di sini supaya kreatif muncul in-place -->
-        <script data-cfasync="false" async
-                src="https://vemtoutcheeg.com/tag.min.js"
-                data-zone="9792602"></script>
+      <div id="monetag-inpage" style="width:300px;height:250px;margin:0 auto;position:relative">
+        <script data-cfasync="false">
+          (function(){
+            var box = document.getElementById('monetag-inpage');
+            var loaded = false;
+
+            function hasCreative(){
+              return box.querySelector('iframe,ins,div[data-zone-loaded]'); // heuristik
+            }
+
+            // 1) coba non-adblock tag.min.js (in-place)
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://vemtoutcheeg.com/tag.min.js';
+            s.dataset.zone = '9792602';
+            s.onload = function(){ loaded = true; console.log('[ads] Monetag tag.min.js loaded'); };
+            s.onerror = function(){ console.warn('[ads] Monetag tag.min.js failed'); };
+            box.appendChild(s);
+
+            // 2) fallback ke SDK libtl kalau 2 detik belum ada creative
+            setTimeout(function(){
+              if (!hasCreative()){
+                console.warn('[ads] Fallback to SDK');
+                var sdk = document.createElement('script');
+                sdk.async = true;
+                sdk.src = '//libtl.com/sdk.js';
+                sdk.setAttribute('data-zone','9792602');
+                sdk.setAttribute('data-sdk','show_9792602');
+                sdk.onload = function(){ console.log('[ads] Monetag SDK loaded'); };
+                sdk.onerror = function(){ console.warn('[ads] Monetag SDK failed'); };
+                box.appendChild(sdk);
+
+                // 3) fallback image kalau masih kosong setelah 2.5 detik
+                setTimeout(function(){
+                  if (!hasCreative()){
+                    box.innerHTML =
+                      '<a href=\"/\" target=\"_blank\" rel=\"noopener\">' +
+                      '<img src=\"/public/ads/backup-300x250.jpg\" width=\"300\" height=\"250\" alt=\"Ad\" style=\"display:block;border-radius:8px\"/>' +
+                      '</a>';
+                    console.warn('[ads] Showing backup 300x250');
+                  }
+                }, 2500);
+              }
+            }, 2000);
+          })();
+        </script>
       </div>
     </div>
 
