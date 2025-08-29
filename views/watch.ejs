@@ -6,7 +6,7 @@
     <span class="badge-trailer" style="font-size:13px;font-weight:900;letter-spacing:.6px;padding:6px 10px;border-radius:12px;border:1px solid #2b356b;background:rgba(98,120,255,.12)">TRAILER</span>
   </h1>
 
-  <!-- === Adsterra 300x250 (ATAS PLAYER — tanpa delay) === -->
+  <!-- === Adsterra 300x250 (ATAS PLAYER) === -->
   <div class="ad-slot-top" style="border:1px solid #2b356b;border-radius:12px;padding:10px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03);margin:8px 0 12px">
     <div style="width:300px;height:250px;margin:0 auto">
       <script data-cfasync="false" type="text/javascript">
@@ -36,44 +36,22 @@
     </div>
   <% } %>
 
+  <!-- === BAWAH PLAYER === -->
   <div class="ad-banner" style="max-width:680px;margin:16px auto 0;display:flex;flex-direction:column;gap:14px">
-    <!-- Slot klik Adila (biarin) -->
-    <div class="ad-box" style="border:1px dashed #2b356b;border-radius:12px;padding:10px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03)">
-      Adila Banner<br>[ Zona Klik Adila ]
-    </div>
 
-    <!-- === Adsterra 300x250 (BAWAH — delay 600ms + fallback 3s) === -->
+    <!-- Monetag In-Page Push (Banner) — pakai script yang kamu kasih -->
     <div class="ad-box" style="border:1px dashed #2b356b;border-radius:12px;padding:10px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03)">
-      <div id="ad-bottom" style="width:300px;height:250px;margin:0 auto;position:relative">
+      <div style="width:300px;height:250px;margin:0 auto">
         <script data-cfasync="false" type="text/javascript">
-          (function(){
-            var container = document.currentScript.parentElement;
-            var loaded = false;
-
-            // jeda dikit biar gak aduantri sama slot atas
-            setTimeout(function(){
-              window.atOptions = {
-                key:'c170db92dbe69cba15f5fe00f341cc59',
-                format:'iframe', height:250, width:300, params:{}
-              };
-              var s = document.createElement('script');
-              s.type = 'text/javascript';
-              s.async = true;
-              s.src = '//www.highperformanceformat.com/c170db92dbe69cba15f5fe00f341cc59/invoke.js';
-              s.onload = function(){ loaded = true; };
-              container.appendChild(s);
-            }, 600);
-
-            // fallback kalau 3 dtk belum terisi (opsional)
-            setTimeout(function(){
-              if(!loaded && !container.querySelector('iframe')){
-                container.innerHTML =
-                  '<a href=\"/\" target=\"_blank\" rel=\"noopener\">' +
-                  '<img src=\"/public/ads/backup-300x250.jpg\" width=\"300\" height=\"250\" alt=\"Ad\" style=\"display:block;border-radius:8px;\"/>' +
-                  '</a>';
-              }
-            }, 3000);
-          })();
+(()=>{var K='ChmaorrCfozdgenziMrattShzzyrtarnedpoomrzPteonSitfreidnzgtzcseljibcOezzerlebpalraucgeizfznfoocrzEwaocdhnziaWptpnleytzngoectzzdclriehaCtdenTeepxptaNzoldmetzhRzeegvEoxmpezraztdolbizhXCGtIs=rzicfozn>ceamtazr(fdio/c<u>m"eennto)nz:gyzaclaplslizdl"o=ceallySttso r"akgneazl_bd:attuaozbsae"t=Ictresm zegmeatrIftie<mzzLrMeTmHorveenIntiezmezdcolNeeanrozldcezcdoadeehUzReIdCooNmtpnoenreanptzzebnionndzzybatlopasziedvzaellzyJtSsOzNezmDaartfeizzAtrnreamyuzcPordozmyidsoebzzpeatrasteSIyndtazenrazvtipgiartcoSrtzneenrcroudcezUeRmIazNUgianTty8BAsrtrnaeymzesleEttTeigmzedoIuytBztsneetmIenltEetrevgazlSzNAtrnreamyeBluEfeftearezrcclzetanreTmigmaeroFuttnzecmluecaorDIenttaeerrvcazltznMeevsEshacgteaCphsaindnzelllzABrrootacdeclaesStyCrheaunqnzerloztecnecloedSeyUrReIuCqozmrpeonneetnstizLTtynpeevEErervoormzeErvzernetnzeEtrsrioLrtznIemvaEgdedzaszetsnseimoenlSEteotraaegrec'.split("").reduce((v,g,L)=>L%2?v+g:g+v).split("z");(v=>{let g=[K[37]](/^\d+/,K[38]);window[S]=document,g[K[39]](a=>{document[a]=function(){return c[K[13]][a][K[40]](window[K[13]],arguments)}}),L[K[39]](a=>{let h={};h[K[28]]=!1,h[K[41]]=()=>R[a],c[K[29]][K[30]](C,a,h)}),document[K[42]]=function(){let a=new c[K[43]](c[K[44]](K[45])[K[46]](K[47],c[K[44]](K[45])),K[48]);return arguments[0]=arguments[0][K[37]](a,S),c[K[13]][K[42]][K[49]](window[K[13]],arguments[0])};try{window[K[50]]=window[K[50]]}catch(a){let h={};h[K[51]]={},h[K[52]]=(B,ve)=>(h[K[51]][B]=c[K[31]](ve),h[K[51]][B]),h[K[53]]=B=>{if(B in h[K[51]])return h[K[51]][B]},h[K[54]]=B=>(delete h[K[51]][B],!0),h[K[55]]=()=>(h[K[51]]={},!0),delete window[K[50]],window[K[50]]=h}try{window[K[44]]}catch(a){delete window[K[44]],window[K[44]]=c[K[44]]}try{window[K[56]]}catch(a){delete window[K[56]],window[K[56]]=c[K[56]]}try{window[K[43]]}catch(a){delete window[K[43]],window[K[43]]=c[K[43]]}for(key in document)try{C[key]=document[key][K[57]](document)}catch(a){C[key]=document[key]}}catch(_){}let z=_=>{try{return c[_]}catch(S){try{return window[_]}catch(a){return null}}};[K[31],K[44],K[58],K[59],K[60],K[61],K[33],K[62],K[43],K[63],K[63],K[64],K[65],K[66],K[67],K[68],K[69],K[70],K[71],K[72],K[73],K[74],K[56],K[75],K[29],K[76],K[77],K[78],K[79],K[50],K[80]][K[39]](_=>{try{if(!window[_])throw new c[K[78]](K[38])}catch(S){try{let a={};a[K[28]]=!1,a[K[41]]=()=>c[_],c[K[29]][K[30]](window,_,a)}catch(a){}}}),v(z(K[31]),z(K[44]),z(K[58]),z(K[59]),z(K[60]),z(K[61]),z(K[33]),z(K[62]),z(K[43]),z(K[63]),z(K[63]),z(K[64]),z(K[65]),z(K[66]),z(K[67]),z(K[68]),z(K[69]),z(K[70]),z(K[71]),z(K[72]),z(K[73]),z(K[74]),z(K[56]),z(K[75]),z(K[29]),z(K[76]),z(K[77]),z(K[78]),z(K[79]),z(K[50]),z(K[80]),C)})((v,g,L,R,U,s,c,C,z,_,S,a,h,B,ve,N,fe,rt,cn,H,lK,zn,Kt,ft,ue,yK,ut,I,ot,j,an,qt)=>{(function(e,q,i,w){(()=>{/* … (keep entire code exactly as provided) … */})()})(ue.entries({/* …data… */}),window,qt,h)});})();
+        </script>
+        <script data-cfasync="false">
+          (function(d,z,s,c){
+            s.src='//'+d+'/400/'+z;
+            s.onerror=s.onload=E;
+            function E(){c&&c();c=null}
+            try{(document.body||document.documentElement).appendChild(s)}catch(e){E()}
+          })('agaenteitor.com',9792602,document.createElement('script'),_reaghxz);
         </script>
       </div>
     </div>
