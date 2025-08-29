@@ -6,83 +6,35 @@
     <span class="badge-trailer" style="font-size:13px;font-weight:900;letter-spacing:.6px;padding:6px 10px;border-radius:12px;border:1px solid #2b356b;background:rgba(98,120,255,.12)">TRAILER</span>
   </h1>
 
-  <!-- === Adsterra 300x250 (ATAS PLAYER) === -->
+  <!-- Adsterra atas -->
   <div class="ad-slot-top" style="border:1px solid #2b356b;border-radius:12px;padding:10px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03);margin:8px 0 12px">
     <div style="width:300px;height:250px;margin:0 auto">
-      <script data-cfasync="false" type="text/javascript">
-        atOptions = { key: 'c170db92dbe69cba15f5fe00f341cc59', format:'iframe', height:250, width:300, params:{} };
+      <script data-cfasync="false">
+        atOptions = { key:'c170db92dbe69cba15f5fe00f341cc59', format:'iframe', height:250, width:300, params:{} };
       </script>
-      <script data-cfasync="false" type="text/javascript" src="//www.highperformanceformat.com/c170db92dbe69cba15f5fe00f341cc59/invoke.js"></script>
+      <script data-cfasync="false" src="//www.highperformanceformat.com/c170db92dbe69cba15f5fe00f341cc59/invoke.js"></script>
     </div>
   </div>
 
   <!-- PLAYER -->
-  <div class="player-shell"
-       style="width:100%;max-width:360px;aspect-ratio:16/9;margin:0 auto 12px;border-radius:16px;overflow:hidden;box-shadow:0 0 24px rgba(0,0,0,.35);background:#000;">
+  <div class="player-shell" style="width:100%;max-width:360px;aspect-ratio:16/9;margin:0 auto 12px;border-radius:16px;overflow:hidden;box-shadow:0 0 24px rgba(0,0,0,.35);background:#000;">
     <video controls playsinline preload="metadata" src="<%= v.url %>" style="width:100%;height:100%;background:#000;display:block;border-radius:16px;"></video>
   </div>
 
   <% if (v.fullUrl) { %>
     <div class="cta-wrap" style="display:flex;justify-content:center;margin:6px 0 8px">
-      <a class="btn btn-primary"
-         style="display:inline-flex;gap:8px;align-items:center;justify-content:center;padding:12px 16px;border-radius:12px;border:none;background:linear-gradient(90deg,#3a8ef6,#6f3afa);color:#fff;font-weight:700"
-         href="<%= v.fullUrl %>" target="_blank" rel="noopener">▶ Tonton FULL</a>
+      <a class="btn btn-primary" style="display:inline-flex;gap:8px;align-items:center;justify-content:center;padding:12px 16px;border-radius:12px;border:none;background:linear-gradient(90deg,#3a8ef6,#6f3afa);color:#fff;font-weight:700" href="<%= v.fullUrl %>" target="_blank" rel="noopener">▶ Tonton FULL</a>
     </div>
   <% } %>
 
-  <!-- === BAWAH PLAYER === -->
+  <!-- Monetag bawah via iframe -->
   <div class="ad-banner" style="max-width:680px;margin:16px auto 0;display:flex;flex-direction:column;gap:14px">
-
-    <!-- Monetag In-Page (non-adblock) — 3 tahap: tag.min.js → SDK → image -->
     <div class="ad-box" style="border:1px dashed #2b356b;border-radius:12px;padding:10px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03)">
-      <div id="monetag-inpage" style="width:300px;height:250px;margin:0 auto;position:relative">
-        <script data-cfasync="false">
-          (function(){
-            var box = document.getElementById('monetag-inpage');
-            var loaded = false;
-
-            function hasCreative(){
-              return box.querySelector('iframe,ins,div[data-zone-loaded]'); // heuristik
-            }
-
-            // 1) coba non-adblock tag.min.js (in-place)
-            var s = document.createElement('script');
-            s.async = true;
-            s.src = 'https://vemtoutcheeg.com/tag.min.js';
-            s.dataset.zone = '9792602';
-            s.onload = function(){ loaded = true; console.log('[ads] Monetag tag.min.js loaded'); };
-            s.onerror = function(){ console.warn('[ads] Monetag tag.min.js failed'); };
-            box.appendChild(s);
-
-            // 2) fallback ke SDK libtl kalau 2 detik belum ada creative
-            setTimeout(function(){
-              if (!hasCreative()){
-                console.warn('[ads] Fallback to SDK');
-                var sdk = document.createElement('script');
-                sdk.async = true;
-                sdk.src = '//libtl.com/sdk.js';
-                sdk.setAttribute('data-zone','9792602');
-                sdk.setAttribute('data-sdk','show_9792602');
-                sdk.onload = function(){ console.log('[ads] Monetag SDK loaded'); };
-                sdk.onerror = function(){ console.warn('[ads] Monetag SDK failed'); };
-                box.appendChild(sdk);
-
-                // 3) fallback image kalau masih kosong setelah 2.5 detik
-                setTimeout(function(){
-                  if (!hasCreative()){
-                    box.innerHTML =
-                      '<a href=\"/\" target=\"_blank\" rel=\"noopener\">' +
-                      '<img src=\"/public/ads/backup-300x250.jpg\" width=\"300\" height=\"250\" alt=\"Ad\" style=\"display:block;border-radius:8px\"/>' +
-                      '</a>';
-                    console.warn('[ads] Showing backup 300x250');
-                  }
-                }, 2500);
-              }
-            }, 2000);
-          })();
-        </script>
-      </div>
+      <iframe
+        src="/public/ads/monetag-9792602.html?v=<%= Date.now() %>"
+        width="300" height="250"
+        style="display:block;margin:0 auto;border:0;overflow:hidden;border-radius:8px"
+        scrolling="no" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
-
   </div>
 </section>
