@@ -39,15 +39,13 @@
   <!-- === BAWAH PLAYER === -->
   <div class="ad-banner" style="max-width:680px;margin:16px auto 0;display:flex;flex-direction:column;gap:14px">
 
-    <!-- Monetag In-Page (non-adblock) — versi persis seperti snippet yang kamu kasih -->
+    <!-- Monetag In-Page (non-adblock) — in-place, 300×250 -->
     <div class="ad-box" style="border:1px dashed #2b356b;border-radius:12px;padding:10px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03)">
-      <div style="width:300px;height:250px;margin:0 auto">
-        <script data-cfasync="false" type="text/javascript">
-          (s=>{
-            s.dataset.zone = 9792602;
-            s.src = 'https://vemtoutcheeg.com/tag.min.js';
-          })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));
-        </script>
+      <div id="monetag-inpage" style="width:300px;height:250px;margin:0 auto">
+        <!-- Taruh tag tepat di sini supaya kreatif muncul in-place -->
+        <script data-cfasync="false" async
+                src="https://vemtoutcheeg.com/tag.min.js"
+                data-zone="9792602"></script>
       </div>
     </div>
 
