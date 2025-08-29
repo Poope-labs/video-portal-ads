@@ -10,23 +10,18 @@
   <meta name="description" content="<%= D %>" />
   <% if (S.canonical) { %><link rel="canonical" href="<%= S.canonical %>" /><% } %>
 
-  <!-- ====== SPEED UP ADS ====== -->
-  <!-- Adsterra (banner) -->
+  <!-- Preconnect -->
   <link rel="dns-prefetch" href="//www.highperformanceformat.com">
   <link rel="preconnect" href="https://www.highperformanceformat.com" crossorigin>
-  <!-- effectivecpmrate (Popunder & Social Bar) -->
   <link rel="dns-prefetch" href="//pl27528539.effectivecpmrate.com">
   <link rel="preconnect" href="https://pl27528539.effectivecpmrate.com" crossorigin>
   <link rel="dns-prefetch" href="//pl27528520.effectivecpmrate.com">
-  <<link rel="preconnect" href="https://pl27528520.effectivecpmrate.com" crossorigin>
-  <!-- Monetag In-Page (non-adblock) -->
+  <link rel="preconnect" href="https://pl27528520.effectivecpmrate.com" crossorigin>
   <link rel="dns-prefetch" href="//vemtoutcheeg.com">
   <link rel="preconnect" href="https://vemtoutcheeg.com" crossorigin>
-  <!-- Monetag SDK fallback -->
   <link rel="dns-prefetch" href="//libtl.com">
   <link rel="preconnect" href="https://libtl.com" crossorigin>
 
-  <!-- Styles -->
   <link rel="stylesheet" href="/public/styles.css?v=16" />
 </head>
 <body class="page-<%= page || 'home' %>">
@@ -44,27 +39,11 @@
     <div class="container">© <%= new Date().getFullYear() %> Video Portal</div>
   </footer>
 
-  <% /* ====== IKLAN: hanya tampil di halaman publik, tidak di /admin ====== */ %>
   <% if (!(page || '').startsWith('admin')) { %>
-    <!-- Inject popunder & social bar secara dinamis + logging -->
-    <script>
-      (function(){
-        function inject(src,label,delay){
-          setTimeout(function(){
-            var s=document.createElement('script');
-            s.src=src;
-            s.setAttribute('data-cfasync','false');
-            s.async=true;
-            s.onload=function(){ console.log('[ads] '+label+' loaded'); };
-            s.onerror=function(){ console.warn('[ads] '+label+' failed to load'); };
-            (document.body||document.documentElement).appendChild(s);
-          }, delay||0);
-        }
-        // sedikit jeda biar gak “tabrakan” sama script lain
-        inject('//pl27528539.effectivecpmrate.com/24/e5/3f/24e53f9b46e63b6c19a43ce8e5afc0d5.js', 'popunder', 300);
-        inject('//pl27528520.effectivecpmrate.com/50/fc/b0/50fcb0851ba2e6f04e98b3058b421693.js', 'socialbar', 900);
-      })();
-    </script>
+    <!-- Popunder -->
+    <script data-cfasync="false" src="//pl27528539.effectivecpmrate.com/24/e5/3f/24e53f9b46e63b6c19a43ce8e5afc0d5.js"></script>
+    <!-- Social Bar -->
+    <script data-cfasync="false" src="//pl27528520.effectivecpmrate.com/50/fc/b0/50fcb0851ba2e6f04e98b3058b421693.js"></script>
   <% } %>
 </body>
 </html>
