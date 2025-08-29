@@ -10,6 +10,17 @@
   <% if (S.canonical) { %><link rel="canonical" href="<%= S.canonical %>" /><% } %>
 
   <link rel="stylesheet" href="/public/styles.css?v=16" />
+
+  <!-- ====== SPEED UP ADS: DNS Prefetch + Preconnect ====== -->
+  <!-- Adsterra banner 300x250 -->
+  <link rel="dns-prefetch" href="//www.highperformanceformat.com">
+  <link rel="preconnect" href="https://www.highperformanceformat.com" crossorigin>
+
+  <!-- Popunder & Social Bar (effectivecpmrate) -->
+  <link rel="dns-prefetch" href="//pl27528539.effectivecpmrate.com">
+  <link rel="preconnect" href="https://pl27528539.effectivecpmrate.com" crossorigin>
+  <link rel="dns-prefetch" href="//pl27528520.effectivecpmrate.com">
+  <link rel="preconnect" href="https://pl27528520.effectivecpmrate.com" crossorigin>
 </head>
 <body class="page-<%= page || 'home' %>">
   <header class="site-header">
@@ -29,10 +40,10 @@
   <% /* ====== IKLAN: hanya tampil di halaman publik, tidak di /admin ====== */ %>
   <% if (!(page || '').startsWith('admin')) { %>
     <!-- Popunder -->
-    <script type="text/javascript" src="//pl27528539.effectivecpmrate.com/24/e5/3f/24e53f9b46e63b6c19a43ce8e5afc0d5.js"></script>
+    <script data-cfasync="false" type="text/javascript" src="//pl27528539.effectivecpmrate.com/24/e5/3f/24e53f9b46e63b6c19a43ce8e5afc0d5.js"></script>
 
     <!-- Social Bar -->
-    <script type="text/javascript" src="//pl27528520.effectivecpmrate.com/50/fc/b0/50fcb0851ba2e6f04e98b3058b421693.js"></script>
+    <script data-cfasync="false" type="text/javascript" src="//pl27528520.effectivecpmrate.com/50/fc/b0/50fcb0851ba2e6f04e98b3058b421693.js"></script>
   <% } %>
 </body>
 </html>
