@@ -6,7 +6,7 @@
     <span class="badge-trailer" style="font-size:13px;font-weight:900;letter-spacing:.6px;padding:6px 10px;border-radius:12px;border:1px solid #2b356b;background:rgba(98,120,255,.12)">TRAILER</span>
   </h1>
 
-  <!-- === Adsterra 300x250 (ATAS PLAYER) === -->
+  <!-- === Adsterra 300x250 (ATAS PLAYER — tanpa delay) === -->
   <div class="ad-slot-top" style="border:1px solid #2b356b;border-radius:12px;padding:10px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03);margin:8px 0 12px">
     <div style="width:300px;height:250px;margin:0 auto">
       <script data-cfasync="false" type="text/javascript">
@@ -37,24 +37,44 @@
   <% } %>
 
   <div class="ad-banner" style="max-width:680px;margin:16px auto 0;display:flex;flex-direction:column;gap:14px">
-    <!-- Slot klik Adila (tetap) -->
+    <!-- Slot klik Adila (biarin) -->
     <div class="ad-box" style="border:1px dashed #2b356b;border-radius:12px;padding:10px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03)">
       Adila Banner<br>[ Zona Klik Adila ]
     </div>
 
-    <!-- === Adsterra 300x250 (BAWAH PLAYER) === -->
+    <!-- === Adsterra 300x250 (BAWAH — delay 600ms + fallback 3s) === -->
     <div class="ad-box" style="border:1px dashed #2b356b;border-radius:12px;padding:10px;text-align:center;color:#98a4c5;background:rgba(255,255,255,.03)">
-      <div style="width:300px;height:250px;margin:0 auto">
+      <div id="ad-bottom" style="width:300px;height:250px;margin:0 auto;position:relative">
         <script data-cfasync="false" type="text/javascript">
-          atOptions = {
-            'key' : 'c170db92dbe69cba15f5fe00f341cc59',
-            'format' : 'iframe',
-            'height' : 250,
-            'width' : 300,
-            'params' : {}
-          };
+          (function(){
+            var container = document.currentScript.parentElement;
+            var loaded = false;
+
+            // jeda dikit biar gak aduantri sama slot atas
+            setTimeout(function(){
+              window.atOptions = {
+                key:'c170db92dbe69cba15f5fe00f341cc59',
+                format:'iframe', height:250, width:300, params:{}
+              };
+              var s = document.createElement('script');
+              s.type = 'text/javascript';
+              s.async = true;
+              s.src = '//www.highperformanceformat.com/c170db92dbe69cba15f5fe00f341cc59/invoke.js';
+              s.onload = function(){ loaded = true; };
+              container.appendChild(s);
+            }, 600);
+
+            // fallback kalau 3 dtk belum terisi (opsional)
+            setTimeout(function(){
+              if(!loaded && !container.querySelector('iframe')){
+                container.innerHTML =
+                  '<a href=\"/\" target=\"_blank\" rel=\"noopener\">' +
+                  '<img src=\"/public/ads/backup-300x250.jpg\" width=\"300\" height=\"250\" alt=\"Ad\" style=\"display:block;border-radius:8px;\"/>' +
+                  '</a>';
+              }
+            }, 3000);
+          })();
         </script>
-        <script data-cfasync="false" type="text/javascript" src="//www.highperformanceformat.com/c170db92dbe69cba15f5fe00f341cc59/invoke.js"></script>
       </div>
     </div>
   </div>
