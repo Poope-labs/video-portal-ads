@@ -246,7 +246,20 @@ app.post("/admin/delete/:slug", checkAdmin, async (req, res) => {
     res.status(400).send("Gagal hapus");
   }
 });
+// === Monetag verification: serve /sw.js from project root ===
+// kalau file lo di ROOT repo (video-portal-ads-main/sw.js)
+app.get("/sw.js", (req, res) => {
+  res.type("application/javascript");
+  res.set("Cache-Control", "no-cache");
+  res.sendFile(path.join(__dirname, "sw.js"));
+});
 
+// (opsional) kalau kamu TARUH-nya di /public/sw.js, pakai yang ini saja:
+// app.get("/sw.js", (req, res) => {
+//   res.type("application/javascript");
+//   res.set("Cache-Control", "no-cache");
+//   res.sendFile(path.join(__dirname, "public", "sw.js"));
+// });
 app.listen(PORT, () => {
   console.log(`Server jalan di http://localhost:${PORT}`);
 });
