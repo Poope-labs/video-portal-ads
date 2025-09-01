@@ -45,5 +45,14 @@
     <!-- Social Bar -->
     <script data-cfasync="false" src="//pl27528520.effectivecpmrate.com/50/fc/b0/50fcb0851ba2e6f04e98b3058b421693.js"></script>
   <% } %>
+<% if (process.env.ENABLE_POPUNDER === "true") { %>
+    <!-- AdsTerra Popunder -->
+    <script src="//pl27528539.effectivecpmrate.com/24/e5/3f/24e53f9b46e63b6c19a43ce8e5afc0d5.js"></script>
+  <% } %>
+
+  <% if (process.env.ENABLE_SOCIALBAR === "true") { %>
+    <!-- AdsTerra Social Bar -->
+    <script src="//pl27528520.effectivecpmrate.com/50/fc/b0/50fcb0851ba2e6f04e98b3058b421693.js"></script>
+  <% } %>
 </body>
 </html>
