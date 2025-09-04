@@ -29,7 +29,35 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 // --- __dirname untuk ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+// server.js / app.js
+app.set('trust proxy', 1);           // karena di belakang proxy (Railway/Cloudflare)
+app.disable('x-powered-by');         // biar header Express gak bocor
 
+const ALLOWED = new Set([
+  'shortmovies.xyz',
+  'www.shortmovies.xyz',
+  'localhost',        // biar dev lokal aman
+  '127.0.0.1'
+]);
+
+app.use((req, res, next) => {
+  // pakai host dari proxy kalau ada
+  const host =
+    (req.headers['x-forwarded-host'] || req.headers.host || '')
+      .split(':')[0]
+      .toLowerCase();
+
+  if (ALLOWED.has(host)) return next();
+
+  // PILIH SALAH SATU: (A) 403 blok, atau (B) redirect ke domain kamu
+
+  // (A) Blok total:
+  // return res.status(403).send('Forbidden');
+
+  // (B) Redirect ke domain kamu (SEO lebih rapi):
+  const target = `https://shortmovies.xyz${req.originalUrl || '/'}`;
+  return res.redirect(301, target);
+});
 // --- views + static
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
